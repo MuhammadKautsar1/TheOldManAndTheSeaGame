@@ -1,19 +1,20 @@
-package loginmenu;
+package com.mycompany.tomasgame;
 
-import java.util.HashMap;
 import java.util.Scanner;
+import controller.OceanController;
+import model.Diver;
+import model.Fish;
+import view.OceanView;
 
-public class LoginMenu {
-    static HashMap<String, String> users = new HashMap<>(); // Menyimpan username dan password
-    static Scanner scanner = new Scanner(System.in);
+class Menu {
+    private Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    // Menu utama (Sign Up, Sign In, Keluar)
+    public void mainMenu(UserManager userManager) {
         int option;
-        
         do {
-            // Menampilkan menu utama
             System.out.println("\n\t\tSELAMAT DATANG");
-            System.out.println("        \tPROGRAM BY KELOMPOK 2");
+            System.out.println("\tPROGRAM BY KELOMPOK 5");
             System.out.println("=======================================================");
             System.out.println("\t||\t1. Sign Up\t||");
             System.out.println("\t||\t2. Sign In\t||");
@@ -25,10 +26,10 @@ public class LoginMenu {
 
             switch (option) {
                 case 1:
-                    signUp();
+                    handleSignUp(userManager);
                     break;
                 case 2:
-                    signIn();
+                    handleSignIn(userManager);
                     break;
                 case 3:
                     System.out.println("Keluar dari program.");
@@ -37,50 +38,10 @@ public class LoginMenu {
                     System.out.println("Opsi tidak valid.");
             }
         } while (option != 3);
-
-        scanner.close();
     }
 
-    // Fitur Sign Up
-    public static void signUp() {
-        System.out.println("\n--- Sign Up ---");
-        System.out.print("Masukkan username: ");
-        String username = scanner.nextLine();
-
-        // Memastikan username belum digunakan
-        if (users.containsKey(username)) {
-            System.out.println("Username sudah digunakan. Silakan coba username lain.");
-            return;
-        }
-
-        System.out.print("Masukkan password: ");
-        String password = inputPassword();
-
-        // Menyimpan username dan password
-        users.put(username, password);
-        System.out.println("Sign Up berhasil!");
-    }
-
-    // Fitur Sign In
-    public static void signIn() {
-        System.out.println("\n--- Sign In ---");
-        System.out.print("Masukkan username: ");
-        String inputUsername = scanner.nextLine();
-
-        System.out.print("Masukkan password: ");
-        String inputPassword = inputPassword();
-
-        // Verifikasi username dan password
-        if (users.containsKey(inputUsername) && users.get(inputUsername).equals(inputPassword)) {
-            System.out.println("\nSign in berhasil!");
-            showMainMenu();
-        } else {
-            System.out.println("Username atau password salah!");
-        }
-    }
-
-    // Menampilkan menu setelah berhasil Sign In
-    public static void showMainMenu() {
+    // Menu setelah berhasil sign in
+    private void showMainMenu() {
         int choice;
         do {
             System.out.println("\n--- Main Menu ---");
@@ -96,19 +57,15 @@ public class LoginMenu {
             switch (choice) {
                 case 1:
                     System.out.println("Game dimulai!");
-                    // Logika untuk memulai game bisa ditambahkan di sini
                     break;
                 case 2:
                     System.out.println("Book terpilih.");
-                    // Logika untuk fitur book bisa ditambahkan di sini
                     break;
                 case 3:
                     System.out.println("Menampilkan history.");
-                    // Logika untuk menampilkan history bisa ditambahkan di sini
                     break;
                 case 4:
                     System.out.println("Menampilkan leaderboard.");
-                    // Logika untuk menampilkan leaderboard bisa ditambahkan di sini
                     break;
                 case 5:
                     System.out.println("Keluar dari menu utama.");
@@ -119,8 +76,39 @@ public class LoginMenu {
         } while (choice != 5);
     }
 
-    // Fungsi untuk menangkap input password dengan bintang
-    public static String inputPassword() {
+    // Fungsi untuk menangani proses Sign Up
+    private void handleSignUp(UserManager userManager) {
+        System.out.println("\n--- Sign Up ---");
+        System.out.print("Masukkan username: ");
+        String username = scanner.nextLine();
+        System.out.print("Masukkan password: ");
+        String password = inputPassword();
+
+        if (userManager.signUp(username, password)) {
+            System.out.println("Sign Up berhasil!");
+        } else {
+            System.out.println("Username sudah digunakan. Silakan coba username lain.");
+        }
+    }
+
+    // Fungsi untuk menangani proses Sign In
+    private void handleSignIn(UserManager userManager) {
+        System.out.println("\n--- Sign In ---");
+        System.out.print("Masukkan username: ");
+        String username = scanner.nextLine();
+        System.out.print("Masukkan password: ");
+        String password = inputPassword();
+
+        if (userManager.signIn(username, password)) {
+            System.out.println("\nSign in berhasil!");
+            showMainMenu(); // Menampilkan menu utama setelah sign in
+        } else {
+            System.out.println("Username atau password salah!");
+        }
+    }
+
+    // Fungsi untuk menangkap input password dengan karakter bintang
+    private String inputPassword() {
         StringBuilder password = new StringBuilder();
         char ch;
         while (true) {
@@ -135,16 +123,20 @@ public class LoginMenu {
                 password.append(ch);
             }
         }
-        System.out.println();
+        System.out.println(); // Untuk pindah baris setelah input selesai
         return password.toString();
     }
 
-    // Fungsi untuk mendapatkan input karakter tanpa menampilkannya di layar (untuk terminal/console)
-    public static char getPasswordChar() {
+    // Fungsi untuk mendapatkan input karakter tanpa menampilkannya di layar (hanya di terminal/console)
+    private char getPasswordChar() {
         try {
             return (char) System.in.read();
         } catch (Exception e) {
             return '\n';
         }
     }
+
+    //void mainMenu(UserManager userManager) {
+        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    //}
 }
