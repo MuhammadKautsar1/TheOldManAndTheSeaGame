@@ -1,33 +1,28 @@
 package com.mycompany.tomasgame;
 
 import controller.OceanController;
+import controller.Menu;
 import model.Diver;
-import model.Fish;
+import model.Environment;
 import view.OceanView;
+
 
 public class Tomasgame {
     public static void main(String[] args) {
-        UserManager userManager = new UserManager(); // Mengelola pengguna
-        Menu menu = new Menu(); // Menampilkan berbagai menu
+        // Untuk membuat atau menginisialisasi Ukuran Tempat Bermain
+        Environment environment = new Environment(100, 100);
 
-        // Menampilkan menu utama
-        menu.mainMenu(userManager);
+        // Menginisialisasi objek diver
+        Diver diver = new Diver("DiverName", "DiverID", 50, 50, 10, environment);
 
-        // Membuat penyelam
-        Diver diver = new Diver("Tom", 0);
-
-        // Membuat ikan-ikan dengan posisi acak
-        Fish[] fishes = {
-            new Fish("Ikan Nemo", 50),
-            new Fish("Ikan Dori", 50),
-            new Fish("Ikan Hiu", 50)
-        };
-
-        // Membuat view
+        // Menginisialisasi objek ocean view
         OceanView view = new OceanView();
+        
+        // Menginisialisasi controller game
+        OceanController controller = new OceanController(diver, 3, 5, view, environment);
 
-        // Membuat controller dan menjalankan permainan
-        OceanController oceanController = new OceanController(diver, fishes, view);
-        oceanController.startGame(); // Memulai permainan
+        // Menginisialisasi Menu sebagai Main Controller dan menampilkanya
+        Menu menu = new Menu(controller);
+        menu.displayMainMenu(); 
     }
 }
