@@ -1,7 +1,7 @@
 package view;
 
-import model.Fish;
 import java.util.Scanner;
+import model.MarineLife;
 
 public class OceanView {
     private Scanner scanner;
@@ -15,17 +15,17 @@ public class OceanView {
     }
 
     public void showCaughtFishCount(int count) {
-        System.out.println("Jumlah ikan yang ditangkap: " + count);
-    }
-
-    public void showFishPosition(Fish fish) {
-        if (!fish.isCaught()) {
-            System.out.println("Posisi ikan: (" + fish.getXPosition() + ", " + fish.getYPosition() + ")");
-        }
+        System.out.println("Jumlah ikan yang tertangkap: " + count);
     }
 
     public String getUserInput() {
-        System.out.print("Masukkan perintah (w/a/s/d untuk bergerak, c untuk menangkap ikan, q untuk keluar): ");
+        System.out.println("Masukkan perintah (w/a/s/d untuk bergerak, c untuk menangkap ikan, q untuk keluar): ");
         return scanner.nextLine();
+    }
+
+    public void showFishPosition(MarineLife lifes) {
+    if (lifes.getName() != null) {
+        System.out.println(lifes.getName() + " berada di posisi (" + lifes.getXPosition() + ", " + lifes.getYPosition() + ")");
+        } 
     }
 }
