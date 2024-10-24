@@ -1,93 +1,202 @@
 package controller;
 
 import model.Diver;
-import model.Fish;
+import model.MarineLife;
+import model.Environment;
 import view.OceanView;
+import dao.MarineLifeDAO;
+import java.util.List;
 
+/**
+ * OceanController.java (Controller)
+ */
 public class OceanController {
     private Diver diver;
-    private Fish[] fishes;
+    private MarineLife[] fishes;
     private OceanView view;
+    private Environment environment;
 
-    // Konstruktor
-    public OceanController(Diver diver, Fish[] fishes, OceanView view) {
+    // Constructor
+    public OceanController(Diver diver, int numberOfFishes, int fishSpeed, OceanView view, Environment environment) {
         this.diver = diver;
-        this.fishes = fishes;
         this.view = view;
+        this.environment = environment;
+
+        // Inisialisasi marinelife dari db
+        List<MarineLife> marineLifeFromDb = MarineLifeDAO.getAllMarineLife();
+        this.fishes = new MarineLife[marineLifeFromDb.size()];
+
+        for (int i = 0; i < marineLifeFromDb.size(); i++) {
+            MarineLife marineLife = marineLifeFromDb.get(i);
+            this.fishes[i] = new MarineLife(
+                marineLife.getId(),
+                marineLife.getName(),
+                marineLife.getClassification(),
+                marineLife.getPoints(),
+                marineLife.getDescription(),
+                fishSpeed,
+                environment
+            );
+        }
+
+        displayFishNames();
     }
 
-    // Metode untuk memulai permainan
-    public void startGame(OceanView view1) {
+    private void displayFishNames() {
+        System.out.println("Fish available in the ocean:");
+        for (MarineLife fish : fishes) {
+            System.out.println(fish.getName());
+        }
+    }
+
+    public void startGame() {
         boolean playing = true;
 
         while (playing) {
-            // Tampilkan posisi diver dan jumlah ikan yang ditangkap
+            // posisi diver
             view.showDiverPosition(diver.getXPosition(), diver.getYPosition());
             view.showCaughtFishCount(diver.getCaughtFish());
 
-            // Pindahkan dan tampilkan posisi masing-masing ikan
-            for (Fish fish : fishes) {
+            // gerak biota
+            for (MarineLife fish : fishes) {
                 fish.move();
                 view.showFishPosition(fish);
             }
 
-            // Ambil input pengguna
+            // user input
             String input = view.getUserInput().toLowerCase();
 
-            // Tangani pergerakan diagonal
+            // movement input
             boolean moveUp = input.contains("w");
             boolean moveDown = input.contains("s");
             boolean moveLeft = input.contains("a");
             boolean moveRight = input.contains("d");
 
-            // Logika pergerakan diver
-            if (moveUp && moveRight && diver.canMoveUp() && diver.canMoveRight()) {
-                diver.moveUp();
-                diver.moveRight();
-            } else if (moveUp && moveLeft && diver.canMoveUp() && diver.canMoveLeft()) {
-                diver.moveUp();
-                diver.moveLeft();
-            } else if (moveDown && moveRight && diver.canMoveDown() && diver.canMoveRight()) {
-                diver.moveDown();
-                diver.moveRight();
-            } else if (moveDown && moveLeft && diver.canMoveDown() && diver.canMoveLeft()) {
-                diver.moveDown();
-                diver.moveLeft();
-            } else if (moveUp && diver.canMoveUp()) {
-                diver.moveUp();
-            } else if (moveDown && diver.canMoveDown()) {
-                diver.moveDown();
-            } else if (moveLeft && diver.canMoveLeft()) {
-                diver.moveLeft();
-            } else if (moveRight && diver.canMoveRight()) {
-                diver.moveRight();
-            } 
-            // Menangkap ikan
-            else if (input.contains("c")) {
-                boolean fishCaught = false;
-                for (Fish fish : fishes) {
-                    if (diver.isNear(fish)) {
-                        diver.catchFish(fish);
-                        fishCaught = true;
-                        System.out.println("Ikan ditangkap: " + fish.getName());
+            // gerakan diver
+            handleMovement(moveUp, moveDown, moveLeft, moveRight);
+
+            // 'c' untuk menangkap ikan
+            if (input.contains("c")) {
+                boolean caughtFish = false;
+                for (MarineLife lifes : fishes) {
+                    if (diver.isNear(lifes)) {
+                        diver.catchFish(lifes);
+                        caughtFish = true;
+                        break; 
                     }
                 }
-                if (!fishCaught) {
-                    System.out.println("Ikan terlalu jauh untuk ditangkap!");
+                if (!caughtFish) {
+                    System.out.println("Biota terlalu jauh");
                 }
             } 
-            // Keluar dari permainan
+            // 'q' untuk keluar
             else if (input.contains("q")) {
                 playing = false;
-            } else {
-                System.out.println("Perintah tidak valid");
-            }
+            } 
         }
 
-        System.out.println("Permainan berakhir!");
+        System.out.println("Game over!");
+    }
+    
+    private void moveDiver(boolean canMoveFirst, boolean canMoveSecond, Runnable moveFirst, Runnable moveSecond) {
+        if (canMoveFirst && canMoveSecond) {
+            moveFirst.run();
+            moveSecond.run();
+        }
+    }
+    
+    // Method untuk gerakan diver berdasarkan input
+    private void handleMovement(boolean moveUp, boolean moveDown, boolean moveLeft, boolean moveRight) {
+    if (moveUp && moveRight) {
+        if (canMoveUp() && canMoveRight()) {
+            diver.moveUp();
+            diver.moveRight();
+        } else {
+            if (!canMoveUp()) {
+                System.out.println("Diver tidak bisa bergerak lebih ke atas!");
+            }
+            if (!canMoveRight()) {
+                System.out.println("Diver tidak bisa bergerak lebih ke kanan!");
+            }
+        }
+    } else if (moveUp && moveLeft) {
+        if (canMoveUp() && canMoveLeft()) {
+            diver.moveUp();
+            diver.moveLeft();
+        } else {
+            if (!canMoveUp()) {
+                System.out.println("Diver tidak bisa bergerak lebih ke atas!");
+            }
+            if (!canMoveLeft()) {
+                System.out.println("Diver tidak bisa bergerak lebih ke kiri!");
+            }
+        }
+    } else if (moveDown && moveRight) {
+        if (canMoveDown() && canMoveRight()) {
+            diver.moveDown();
+            diver.moveRight();
+        } else {
+            if (!canMoveDown()) {
+                System.out.println("Diver tidak bisa bergerak lebih ke bawah!");
+            }
+            if (!canMoveRight()) {
+                System.out.println("Diver tidak bisa bergerak lebih ke kanan!");
+            }
+        }
+    } else if (moveDown && moveLeft) {
+        if (canMoveDown() && canMoveLeft()) {
+            diver.moveDown();
+            diver.moveLeft();
+        } else {
+            if (!canMoveDown()) {
+                System.out.println("Diver tidak bisa bergerak lebih ke bawah!");
+            }
+            if (!canMoveLeft()) {
+                System.out.println("Diver tidak bisa bergerak lebih ke kiri!");
+            }
+        }
+    } else if (moveUp) {
+        if (canMoveUp()) {
+            diver.moveUp();
+        } else {
+            System.out.println("Diver tidak bisa bergerak lebih ke atas!");
+        }
+    } else if (moveDown) {
+        if (canMoveDown()) {
+            diver.moveDown();
+        } else {
+            System.out.println("Diver tidak bisa bergerak lebih ke bawah!");
+        }
+    } else if (moveLeft) {
+        if (canMoveLeft()) {
+            diver.moveLeft();
+        } else {
+            System.out.println("Diver tidak bisa bergerak lebih ke kiri!");
+        }
+    } else if (moveRight) {
+        if (canMoveRight()) {
+            diver.moveRight();
+        } else {
+            System.out.println("Diver tidak bisa bergerak lebih ke kanan!");
+        }
+    }
+}
+
+    
+    // Method-method untuk cek apakah diver sudah berada di batas permainan
+    private boolean canMoveUp() {
+        return diver.getYPosition() < environment.getMaxY();
     }
 
-    public void startGame() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    private boolean canMoveDown() {
+        return diver.getYPosition() > 0;
+    }
+
+    private boolean canMoveLeft() {
+        return diver.getXPosition() > 0;
+    }
+
+    private boolean canMoveRight() {
+        return diver.getXPosition() < environment.getMaxX();
     }
 }
