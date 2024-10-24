@@ -1,22 +1,42 @@
 package model;
 
-public class User { // Tambahkan modifier public
-    private String username;
-    private String password;
+public class User {
+    private int uid; 
+    private String uname;
+    private String pass;
 
-    // Konstruktor
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public User(String uname, String pass) {
+        this.setPass(pass);
+        this.setUname(uname);
     }
 
-    // Getter untuk username
-    public String getUsername() {
-        return username;
+    public User(int uid, String uname, String pass) {
+        this.setUid(uid);
+        this.setPass(pass);
+        this.setUname(uname);
     }
 
-    // Getter untuk password
-    public String getPassword() {
-        return password;
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public String getUname() {
+        return uname;
+    }
+
+    public void setUname(String uname) {
+        this.uname = uname;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 }

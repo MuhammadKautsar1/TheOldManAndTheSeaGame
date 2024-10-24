@@ -1,26 +1,21 @@
 package model;
 
-public class Diver {
+public class Diver extends User{
     private int xPosition;
     private int yPosition;
     private int caughtFish;
     private int catchRadius; // Jarak tangkap ikan (proximity)
-    private int maxX; // Batas maksimal X pada layar/game
-    private int maxY; // Batas maksimal Y pada layar/game
     private int moveStep = 10; // Langkah tiap kali bergerak
+    private Environment environment; // Referensi ke Environment untuk batas X dan Y
 
     // Constructor
-    public Diver(int xPosition, int par1, int par2, int par3, int par4) {
+    public Diver(String uname, String pass, int xPosition, int yPosition, int catchRadius, Environment environment) {
+        super(uname, pass);
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.caughtFish = 0;
-        this.catchRadius = catchRadius; // Menetapkan radius tangkap
-        this.maxX = maxX; // Batas X
-        this.maxY = maxY; // Batas Y
-    }
-
-    public Diver(String tom, int i) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.catchRadius = catchRadius; 
+        this.environment = environment; 
     }
 
     // Getters
@@ -37,56 +32,51 @@ public class Diver {
     }
 
     // Method untuk menangkap ikan jika berada dalam jarak tertentu (proximity)
-    public void catchFish(Fish fish) {
-        // Hitung jarak antara penyelam dan ikan
-        double distance = Math.sqrt(Math.pow(fish.getXPosition() - xPosition, 2) + Math.pow(fish.getYPosition() - yPosition, 2));
-        
-        // Jika jarak antara penyelam dan ikan lebih kecil atau sama dengan radius tangkap, ikan tertangkap
-        if (distance <= catchRadius) {
-            caughtFish++;
-            System.out.println("Ikan tertangkap: " + fish.getName());
-        } else {
-            System.out.println("Ikan terlalu jauh! Jarak: " + (int) distance + " unit");
-        }
-    }
+    public void catchFish(MarineLife fish) {
+    // Calculate the difference between the diver's and fish's X and Y positions
+    int deltaX = Math.abs(fish.getXPosition() - xPosition);
+    int deltaY = Math.abs(fish.getYPosition() - yPosition);
 
-    // Methods untuk menggerakkan penyelam
+    // Check if the fish is within the catch radius on both axes
+    if (deltaX <= catchRadius && deltaY <= catchRadius) {
+        caughtFish++;
+        System.out.println("Ikan tertangkap: " + fish.getName());
+    } 
+    
+}
+
+
+    // Methods untuk menggerakkan penyelam (dengan batasan environment)
     public void moveUp() {
-        yPosition = Math.min(yPosition + moveStep, maxY); // Tidak boleh melebihi batas Y
+        if (yPosition + moveStep <= environment.getMaxY()) {
+            yPosition += moveStep;
+        } 
     }
 
     public void moveDown() {
-        yPosition = Math.max(yPosition - moveStep, 0); // Tidak boleh kurang dari 0 (batas bawah)
+        if (yPosition - moveStep >= environment.getMinY()) {
+            yPosition -= moveStep;
+        } 
     }
 
     public void moveLeft() {
-        xPosition = Math.max(xPosition - moveStep, 0); // Tidak boleh kurang dari 0 (batas kiri)
+        if (xPosition - moveStep >= environment.getMinX()) {
+            xPosition -= moveStep;
+        }
     }
 
     public void moveRight() {
-        xPosition = Math.min(xPosition + moveStep, maxX); // Tidak boleh melebihi batas X
+        if (xPosition + moveStep <= environment.getMaxX()) {
+            xPosition += moveStep;
+        } 
     }
+    
+        
+    public boolean isNear(MarineLife fish) {
+    // Menghitung selisih posisi X dan Y
+    int deltaX = Math.abs(fish.getXPosition() - this.xPosition);
+    int deltaY = Math.abs(fish.getYPosition() - this.yPosition);
+    return deltaX <= catchRadius && deltaY <= catchRadius;
+}
 
-    // Method tambahan untuk memeriksa apakah penyelam bisa bergerak
-    public boolean canMoveUp() {
-        return yPosition + moveStep <= maxY;
-    }
-
-    public boolean canMoveDown() {
-        return yPosition - moveStep >= 0;
-    }
-
-    public boolean canMoveLeft() {
-        return xPosition - moveStep >= 0;
-    }
-
-    public boolean canMoveRight() {
-        return xPosition + moveStep <= maxX;
-    }
-
-    // Method untuk memeriksa apakah ikan berada dalam radius tangkap
-    public boolean isNear(Fish fish) {
-        double distance = Math.sqrt(Math.pow(fish.getXPosition() - xPosition, 2) + Math.pow(fish.getYPosition() - yPosition, 2));
-        return distance <= catchRadius;
-    }
 }
