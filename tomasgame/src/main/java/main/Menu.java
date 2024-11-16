@@ -1,4 +1,4 @@
-package com.mycompany.tomasgame;
+package main;
 
 import java.util.Scanner;
 import controller.OceanController;

@@ -1,4 +1,4 @@
-package com.mycompany.tomasgame;
+package main;
 
 import controller.OceanController;
 import controller.Menu;
