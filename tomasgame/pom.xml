@@ -49,4 +49,18 @@
             <version>23</version>
         </dependency>
     </dependencies>
+    <build>
+    	<plugins>
+        	<plugin>
+            	<groupId>org.openjfx</groupId>
+            	<artifactId>javafx-maven-plugin</artifactId>
+            	<version>23</version>
+            	<configuration>
+                	<mainClass>${exec.mainClass}</mainClass>
+            	</configuration>
+        	</plugin>
+    	</plugins>
+	</build>
+
+    
 </project>
