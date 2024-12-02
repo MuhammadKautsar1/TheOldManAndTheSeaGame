@@ -13,7 +13,7 @@ public class UserDAO {
     private static PreparedStatement st;
     private static Connection con;
 
-    // Validasi
+    // Validasi Login
     public static User validate(String name, String password) {
         User u = null;
         try {
@@ -24,17 +24,17 @@ public class UserDAO {
             st.setString(2, password);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                u = new User(rs.getInt("id_user"), rs.getString("username"), password); // Use int for id_user
+                u = new User(rs.getInt("id_user"), rs.getString("username"), password);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error validating user: " + e.getMessage());
         } finally {
             closeCon(con);
         }
         return u;
     }
 
-    // Registrasi
+    // Registrasi User Baru
     public static void registerUser(User u) {
         try {
             con = getCon();
@@ -44,13 +44,14 @@ public class UserDAO {
             st.setString(2, u.getPass());
             st.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error registering user: " + e.getMessage());
         } finally {
             closeCon(con);
         }
     }
-    
-     public static boolean isUsernameTaken(String username) {
+
+    // Cek Apakah Username Sudah Digunakan
+    public static boolean isUsernameTaken(String username) {
         boolean isTaken = false;
         try {
             con = getCon();
@@ -59,16 +60,17 @@ public class UserDAO {
             st.setString(1, username);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                isTaken = (rs.getInt(1) > 0); 
+                isTaken = rs.getInt(1) > 0;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error checking username: " + e.getMessage());
         } finally {
             closeCon(con);
         }
         return isTaken;
     }
 
+    // Ambil Data User Berdasarkan Username
     public static User getUsername(String username) {
         User u = null;
         try {
@@ -81,7 +83,7 @@ public class UserDAO {
                 u = new User(rs.getInt("id_user"), rs.getString("username"), rs.getString("password"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error fetching user: " + e.getMessage());
         } finally {
             closeCon(con);
         }

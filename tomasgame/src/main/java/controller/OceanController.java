@@ -7,9 +7,6 @@ import view.OceanView;
 import dao.MarineLifeDAO;
 import java.util.List;
 
-/**
- * OceanController.java (Controller)
- */
 public class OceanController {
     private Diver diver;
     private MarineLife[] fishes;
@@ -39,7 +36,6 @@ public class OceanController {
             );
         }
 
-        displayFishNames();
     }
 
     private void displayFishNames() {

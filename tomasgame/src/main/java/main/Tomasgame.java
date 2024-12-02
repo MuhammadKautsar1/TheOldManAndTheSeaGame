@@ -1,28 +1,38 @@
 package main;
 
-import controller.OceanController;
-import controller.Menu;
-import model.Diver;
-import model.Environment;
-import view.OceanView;
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
+public class Tomasgame extends Application {
 
-public class Tomasgame {
+    @Override
+    public void start(Stage stage) throws IOException {
+        try {
+            // Load the Login.fxml file from the resources folder (view package)
+            // Make sure that Login.fxml is placed under src/main/resources/view/
+            URL url = new File("src/main/java/view/Login.fxml").toURI().toURL();
+            Parent root = FXMLLoader.load(url);  // Load FXML from the file URL
+
+            // Create a scene from the FXML file
+            Scene scene = new Scene(root, 1920, 1080); // Set desired scene size
+
+            // Set the title for the stage and set the scene to it
+            stage.setTitle("Tomasgame - Kelompok 2");
+            stage.setScene(scene);
+            stage.centerOnScreen();  // Center the window on the screen
+            stage.show();  // Show the stage
+        } catch (Exception e) {
+            e.printStackTrace();  // Print any exceptions for debugging
+        }
+    }
+
     public static void main(String[] args) {
-        // Untuk membuat atau menginisialisasi Ukuran Tempat Bermain
-        Environment environment = new Environment(100, 100);
-
-        // Menginisialisasi objek diver
-        Diver diver = new Diver("DiverName", "DiverID", 50, 50, 10, environment);
-
-        // Menginisialisasi objek ocean view
-        OceanView view = new OceanView();
-        
-        // Menginisialisasi controller game
-        OceanController controller = new OceanController(diver, 3, 5, view, environment);
-
-        // Menginisialisasi Menu sebagai Main Controller dan menampilkanya
-        Menu menu = new Menu(controller);
-        menu.displayMainMenu(); 
+        launch(args);  // Launch the JavaFX application
     }
 }
