@@ -3,12 +3,26 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import model.User;
 import dao.UserDAO;
+import java.awt.HeadlessException;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
+import javax.swing.JOptionPane;
 
-public class LoginController {
+public class LoginController implements Initializable {
+
+    public static User user;
 
     @FXML
     private TextField usernameField;
@@ -16,43 +30,71 @@ public class LoginController {
     @FXML
     private PasswordField passwordField;
 
-    private Stage primaryStage;
+    @FXML
+    private Button loginButton;
 
-    public void setPrimaryStage(Stage primaryStage) {
-        this.primaryStage = primaryStage;
+    @FXML
+    private Button signUpButton;
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        user = null;
+        loginButton.setText("LOGIN");
     }
 
     @FXML
-    private void handleLogin() {
-        String username = usernameField.getText();
-        String password = passwordField.getText();
+    @SuppressWarnings("CallToPrintStackTrace")
+    private void handleButtonEvent(ActionEvent event) throws IOException {
+        // Validasi input tidak boleh kosong
+        if (usernameField.getText().isEmpty() || passwordField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Username dan Password tidak boleh kosong!");
+            return;
+        }
 
-        User user = UserDAO.validate(username, password);
-
-        if (user != null) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Login Successful");
-            alert.setHeaderText(null);
-            alert.setContentText("Welcome, " + username + "!");
-            alert.showAndWait();
-            navigateToMainMenu();
+        if (loginButton.getText().equals("LOGIN")) {
+            try {
+                user = UserDAO.validate(usernameField.getText(), passwordField.getText());
+                if (user != null) {
+                    Stage stage = (Stage) loginButton.getScene().getWindow();
+                    URL url = new File("src/main/java/view/MainMenu.fxml").toURI().toURL();
+                    Parent root = FXMLLoader.load(url);
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                } else {
+                    JOptionPane.showMessageDialog(null, "INVALID USERNAME/PASSWORD!!!");
+                }
+            } catch (HeadlessException | IOException e) {
+                e.printStackTrace();
+            }
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Login Failed");
-            alert.setHeaderText(null);
-            alert.setContentText("Invalid username or password.");
-            alert.showAndWait();
+            User u = new User(usernameField.getText(), passwordField.getText());
+            UserDAO.registerUser(u);
+            JOptionPane.showMessageDialog(null, " Registered " + usernameField.getText() + " Successfully. Please Login!");
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            URL url = new File("src/main/java/view/MainMenu.fxml").toURI().toURL();
+            Parent root = FXMLLoader.load(url);
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+        }
+
+    }
+
+    @FXML
+    void handleSignUpButtonEvent(MouseEvent event) throws IOException {
+        
+        // Pindah ke halaman Signup.fxml
+        try {
+            URL url = new File("src/main/java/view/Signup.fxml").toURI().toURL();
+            Parent root = FXMLLoader.load(url);
+            Stage stage = (Stage) signUpButton.getScene().getWindow();
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Gagal memuat halaman Signup. Periksa file FXML Anda!");
         }
     }
 
-    @FXML
-    private void handleSignUpRedirect() {
-        // Navigate to Sign Up screen
-        SceneController.switchScene(primaryStage, "SignUp.fxml");
-    }
-
-    private void navigateToMainMenu() {
-        // Navigate to Main Menu screen
-        SceneController.switchScene(primaryStage, "MainMenu.fxml");
-    }
 }

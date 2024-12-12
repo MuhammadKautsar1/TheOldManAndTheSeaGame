@@ -12,15 +12,19 @@
         <AnchorPane maxHeight="500" maxWidth="400" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0.5, 0, 0);">
             <Text layoutX="140" layoutY="50" style="-fx-font-size: 28px; -fx-font-weight: bold;" text="Sign Up" />
             
+            <!-- Username Label -->
             <Text layoutX="40" layoutY="120" style="-fx-font-size: 16px;" text="Username:" />
-            <TextField fx:id="usernameField" layoutX="40" layoutY="150" prefWidth="320" />
-            
+            <TextField fx:id="usernameField" prefWidth="320" AnchorPane.leftAnchor="40" AnchorPane.topAnchor="150" />
+
+            <!-- Password Label -->
             <Text layoutX="40" layoutY="210" style="-fx-font-size: 16px;" text="Password:" />
-            <PasswordField fx:id="passwordField" layoutX="40" layoutY="240" prefWidth="320" />
-            
-            <Button fx:id="signUpButton" layoutX="40" layoutY="310" prefWidth="320" style="-fx-background-color: #e66465; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 10;" text="Sign Up" />
-            
-            <Button fx:id="backToLoginButton" layoutX="40" layoutY="370" prefWidth="320" style="-fx-background-color: transparent; -fx-text-fill: #e66465; -fx-font-size: 14px;" text="Back to Login" />
+            <PasswordField fx:id="passwordField" prefWidth="320" AnchorPane.leftAnchor="40" AnchorPane.topAnchor="240" />
+         <Button fx:id="loginButton" layoutX="42.0" layoutY="305.0" onAction="#handleButtonEvent" prefWidth="320" style="-fx-background-color: #4a90e2; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 10;" text="Sign Up" />
+         <Button fx:id="signUpButton" layoutX="50.0" layoutY="380.0" onMouseClicked="#handleSignUpButtonEvent" prefWidth="320" style="-fx-background-color: transparent; -fx-text-fill: #4a90e2; -fx-font-size: 14px;" text="Back to Login" />
+
+            <!-- Sign Up Button -->
+
+            <!-- Back to Login Button -->
         </AnchorPane>
     </StackPane>
 </AnchorPane>

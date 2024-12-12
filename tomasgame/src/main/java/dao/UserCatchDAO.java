@@ -18,6 +18,7 @@ public class UserCatchDAO {
     private static PreparedStatement st;
     private static Connection con;
 
+    // digunakan ketika player menangkap biota
     public static void addUserCatch(int userId, int marineLifeId) {
         try {
             con = getCon();
