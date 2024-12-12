@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="1500.0" prefWidth="2560.0" style="-fx-background-color: linear-gradient(to bottom, #4a90e2, #145da0);" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+   <ImageView fitHeight="1080.0" fitWidth="1920.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="289.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1654.0" AnchorPane.topAnchor="0.0">
+      <image>
+         <Image url="@5_71.png" />
+      </image>
+   </ImageView>
+    <StackPane alignment="center" layoutY="11.0" onMouseClicked="#handleButtonEvent" prefHeight="1069.0" prefWidth="2092.0">
+        <AnchorPane maxHeight="500" maxWidth="400" onMouseClicked="#handleButtonEvent" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0.5, 0, 0);">
+            <Text layoutX="160" layoutY="50" style="-fx-font-size: 28px; -fx-font-weight: bold;" text="Login" />
+            
+            <Text layoutX="40" layoutY="120" style="-fx-font-size: 16px;" text="Username:" />
+            <TextField fx:id="usernameField" layoutX="40" layoutY="150" prefWidth="320" />
+            
+            <Text layoutX="40" layoutY="210" style="-fx-font-size: 16px;" text="Password:" />
+            <PasswordField fx:id="passwordField" layoutX="40" layoutY="240" prefWidth="320" />
+            
+            <Button fx:id="loginButton" layoutX="40" layoutY="310" onAction="#handleButtonEvent" prefWidth="320" style="-fx-background-color: #4a90e2; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 10;" text="Login" />
+            
+            <Button fx:id="signUpButton" layoutX="40" layoutY="370" onMousePressed="#handleSignUpButtonEvent" prefWidth="320" style="-fx-background-color: transparent; -fx-text-fill: #4a90e2; -fx-font-size: 14px;" text="Sign Up" />
+        </AnchorPane>
+    </StackPane>
+</AnchorPane>
