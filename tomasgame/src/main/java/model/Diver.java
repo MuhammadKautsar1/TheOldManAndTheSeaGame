@@ -1,82 +1,157 @@
 package model;
 
-public class Diver extends User{
-    private int xPosition;
-    private int yPosition;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+public class Diver extends User {
+    private double xPosition;
+    private double yPosition;
     private int caughtFish;
-    private int catchRadius; // Jarak tangkap ikan (proximity)
-    private int moveStep = 10; // Langkah tiap kali bergerak
-    private Environment environment; // Referensi ke Environment untuk batas X dan Y
+    private int catchRadius;
+
+    private double velocityX = 0;
+    private double velocityY = 0;
+    private static final double PLAYER_SPEED = 2.0;
+    private static final double FRICTION = 0.8;
+    public static final double MIN_VELOCITY = 0.1;
+
+    private ImageView sprite; 
+    private double FRAME_WIDTH;
+    private double FRAME_HEIGHT;
+    
+    private boolean upPressed = false;
+    private boolean downPressed = false;
+    private boolean leftPressed = false;
+    private boolean rightPressed = false;
 
     // Constructor
-    public Diver(String uname, String pass, int xPosition, int yPosition, int catchRadius, Environment environment) {
-        super(uname, pass);
+        public Diver(User user, double xPosition, double yPosition, int catchRadius, Image spriteImage) {
+        super(user.getUid(), user.getUname(), user.getPass());
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.caughtFish = 0;
-        this.catchRadius = catchRadius; 
-        this.environment = environment; 
+        this.catchRadius = catchRadius;
+        this.sprite = new ImageView(spriteImage);
+        this.sprite.setFitWidth(catchRadius * 2); 
+        this.sprite.setFitHeight(catchRadius * 2);
+        this.sprite.setX(this.xPosition);
+        this.sprite.setY(this.yPosition);
     }
-
-    // Getters
-    public int getXPosition() {
-        return xPosition;
-    }
-
-    public int getYPosition() {
-        return yPosition;
-    }
-
-    public int getCaughtFish() {
-        return caughtFish;
-    }
-
-    // Method untuk menangkap ikan jika berada dalam jarak tertentu (proximity)
-    public void catchFish(MarineLife fish) {
-    // Calculate the difference between the diver's and fish's X and Y positions
-    int deltaX = Math.abs(fish.getXPosition() - xPosition);
-    int deltaY = Math.abs(fish.getYPosition() - yPosition);
-
-    // Check if the fish is within the catch radius on both axes
-    if (deltaX <= catchRadius && deltaY <= catchRadius) {
-        caughtFish++;
-        System.out.println("Ikan tertangkap: " + fish.getName());
-    } 
-    
-}
-
-
-    // Methods untuk menggerakkan penyelam (dengan batasan environment)
-    public void moveUp() {
-        if (yPosition + moveStep <= environment.getMaxY()) {
-            yPosition += moveStep;
-        } 
-    }
-
-    public void moveDown() {
-        if (yPosition - moveStep >= environment.getMinY()) {
-            yPosition -= moveStep;
-        } 
-    }
-
-    public void moveLeft() {
-        if (xPosition - moveStep >= environment.getMinX()) {
-            xPosition -= moveStep;
-        }
-    }
-
-    public void moveRight() {
-        if (xPosition + moveStep <= environment.getMaxX()) {
-            xPosition += moveStep;
-        } 
-    }
-    
         
-    public boolean isNear(MarineLife fish) {
-    // Menghitung selisih posisi X dan Y
-    int deltaX = Math.abs(fish.getXPosition() - this.xPosition);
-    int deltaY = Math.abs(fish.getYPosition() - this.yPosition);
-    return deltaX <= catchRadius && deltaY <= catchRadius;
-}
+    public boolean getUpPressed() {
+        return upPressed;
+    }
 
+    public void setUpPressed(boolean upPressed) {
+        this.upPressed = upPressed;
+    }
+
+    public boolean getDownPressed() {
+        return downPressed;
+    }
+
+    public void setDownPressed(boolean downPressed) {
+        this.downPressed = downPressed;
+    }
+
+    public boolean getLeftPressed() {
+        return leftPressed;
+    }
+
+    public void setLeftPressed(boolean leftPressed) {
+        this.leftPressed = leftPressed;
+    }
+
+    public boolean getRightPressed() {
+        return rightPressed;
+    }
+
+    public void setRightPressed(boolean rightPressed) {
+        this.rightPressed = rightPressed;
+    }
+
+    public void moveUp() { 
+        velocityY -= PLAYER_SPEED; 
+    }
+    public void moveDown() { 
+        velocityY += PLAYER_SPEED; 
+    }
+    public void moveLeft() { 
+        velocityX -= PLAYER_SPEED; 
+    }
+    public void moveRight() { 
+        velocityX += PLAYER_SPEED;
+    }
+
+
+    public void updatePosition(double paneWidth, double paneHeight) {
+        if (getUpPressed()) velocityY -= PLAYER_SPEED; 
+        if (getDownPressed()) velocityY += PLAYER_SPEED;
+        if (getLeftPressed()) velocityX -= PLAYER_SPEED;
+        if (getRightPressed()) velocityX += PLAYER_SPEED;
+
+        if (!getUpPressed() && !getDownPressed()) velocityY *= FRICTION;
+        if (!getLeftPressed() && !getRightPressed()) velocityX *= FRICTION;
+
+        if (Math.abs(velocityX) < MIN_VELOCITY) velocityX = 0;
+        if (Math.abs(velocityY) < MIN_VELOCITY) velocityY = 0;
+
+        xPosition += velocityX;
+        yPosition += velocityY;
+
+        if (xPosition < 0) xPosition = 0;
+        if (xPosition > paneWidth - FRAME_WIDTH) xPosition = paneWidth - FRAME_WIDTH;
+        if (yPosition < 0) yPosition = 0;
+        if (yPosition > paneHeight - FRAME_HEIGHT) yPosition = paneHeight - FRAME_HEIGHT;
+
+        sprite.setX(xPosition);
+        sprite.setY(yPosition);
+    }
+
+
+
+    public Image getImage() {
+        return sprite.getImage();
+    }
+
+    public ImageView getSprite() {
+        return sprite;
+    }
+
+    public double getVelocityX() {
+        return velocityX;
+    }
+
+    public double getVelocityY() {
+        return velocityY;
+    }
+
+    public double getXPosition() {
+        return xPosition; 
+    }
+    public void setXPosition(double xPosition) { 
+        this.xPosition = xPosition;
+        sprite.setX(xPosition);
+    }
+    public double getYPosition() {
+        return yPosition; 
+    }
+    public void setYPosition(double yPosition) { 
+        this.yPosition = yPosition;
+        sprite.setY(yPosition);
+    }
+
+    public int getCaughtFish() { 
+        return caughtFish; 
+    }
+    public void setCaughtFish(int caughtFish) {
+        this.caughtFish = caughtFish; 
+    }
+
+    public int getCatchRadius() { return catchRadius; }
+    public void setCatchRadius(int catchRadius) { 
+        this.catchRadius = catchRadius;
+        sprite.setFitWidth(catchRadius * 2);
+        sprite.setFitHeight(catchRadius * 2);
+    }
 }
