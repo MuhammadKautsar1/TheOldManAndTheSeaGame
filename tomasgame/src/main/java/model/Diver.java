@@ -8,6 +8,7 @@ public class Diver extends User {
     private double yPosition;
     private int caughtFish;
     private int catchRadius;
+    private double HP = 100.0;
 
     private double velocityX = 0;
     private double velocityY = 0;
@@ -16,16 +17,21 @@ public class Diver extends User {
     public static final double MIN_VELOCITY = 0.1;
 
     private ImageView sprite; 
-    private double FRAME_WIDTH;
-    private double FRAME_HEIGHT;
-    
+
+    private static final int FRAME_WIDTH = 128;
+    private static final int FRAME_HEIGHT = 128;
+    private static final int UP_Y = 0;
+    private static final int DOWN_Y = 384;
+    private static final int LEFT_Y = 512;
+    private static final int RIGHT_Y = 128;
+    private static final int FRAME_COUNT = 12;
+
     private boolean upPressed = false;
     private boolean downPressed = false;
     private boolean leftPressed = false;
     private boolean rightPressed = false;
 
-    // Constructor
-        public Diver(User user, double xPosition, double yPosition, int catchRadius, Image spriteImage) {
+    public Diver(User user, double xPosition, double yPosition, int catchRadius, Image spriteImage) {
         super(user.getUid(), user.getUname(), user.getPass());
         this.xPosition = xPosition;
         this.yPosition = yPosition;
@@ -37,7 +43,7 @@ public class Diver extends User {
         this.sprite.setX(this.xPosition);
         this.sprite.setY(this.yPosition);
     }
-        
+
     public boolean getUpPressed() {
         return upPressed;
     }
@@ -56,6 +62,14 @@ public class Diver extends User {
 
     public boolean getLeftPressed() {
         return leftPressed;
+    }
+
+    public double getHP() {
+        return HP;
+    }
+
+    public void setHP(double HP) {
+        this.HP = HP;
     }
 
     public void setLeftPressed(boolean leftPressed) {
@@ -83,7 +97,6 @@ public class Diver extends User {
         velocityX += PLAYER_SPEED;
     }
 
-
     public void updatePosition(double paneWidth, double paneHeight) {
         if (getUpPressed()) velocityY -= PLAYER_SPEED; 
         if (getDownPressed()) velocityY += PLAYER_SPEED;
@@ -107,8 +120,6 @@ public class Diver extends User {
         sprite.setX(xPosition);
         sprite.setY(yPosition);
     }
-
-
 
     public Image getImage() {
         return sprite.getImage();
@@ -153,5 +164,33 @@ public class Diver extends User {
         this.catchRadius = catchRadius;
         sprite.setFitWidth(catchRadius * 2);
         sprite.setFitHeight(catchRadius * 2);
+    }
+
+    public int getFrameWidth() {
+        return FRAME_WIDTH;
+    }
+
+    public int getFrameHeight() {
+        return FRAME_HEIGHT;
+    }
+
+    public int getUpY() {
+        return UP_Y;
+    }
+
+    public int getDownY() {
+        return DOWN_Y;
+    }
+
+    public int getLeftY() {
+        return LEFT_Y;
+    }
+
+    public int getRightY() {
+        return RIGHT_Y;
+    }
+
+    public int getFrameCount() {
+        return FRAME_COUNT;
     }
 }
