@@ -6,12 +6,14 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -23,33 +25,32 @@ import model.User;
 public class GameController implements Initializable {
 
     @FXML
-    private ImageView spriteImageView;
-    
-    @FXML
-    private AnchorPane gamePane; 
+    private AnchorPane gamePane;
 
-    private Diver diver; 
-    private static final int FRAME_WIDTH = 128;
-    private static final int FRAME_HEIGHT = 128;
-    private static final int UP_Y = 0;
-    private static final int DOWN_Y = 384;
-    private static final int LEFT_Y = 512;
-    private static final int RIGHT_Y = 128;
-    private static final int FRAME_COUNT = 12;
+    @FXML
+    private ImageView spriteImageView;
+
+    @FXML
+    private Label timerLabel; 
+
+    private Diver diver;
     private static final int ANIMATION_DURATION = 130;
     private static final int IDLE_ANIMATION_DURATION = 130;
 
     private int currentFrame = 0;
-    private int currentDirectionY = 0; 
+    private int currentDirectionY = 0;
     private boolean isMoving = false;
 
     private Timeline animationTimeline;
     private Timeline idleAnimationTimeline;
+    private Timeline countdownTimer; 
+
+    private int remainingTimeInSeconds = 120;  
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         gamePane.widthProperty().addListener((obs, oldWidth, newWidth) -> {
-            updateAnimation(); 
+            updateAnimation();
         });
 
         gamePane.heightProperty().addListener((obs, oldHeight, newHeight) -> {
@@ -61,11 +62,11 @@ public class GameController implements Initializable {
             this.setupSprite();
             this.setupKeyboardControls();
             this.setupAnimation();
+            this.startTimer();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
 
     private void initializeDiver() throws SQLException {
         ArrayList<byte[]> images = ImageDAO.getImages(); 
@@ -79,10 +80,9 @@ public class GameController implements Initializable {
         }
     }
 
-
     private void setupSprite() {
         spriteImageView.setImage(diver.getSprite().getImage());
-        spriteImageView.setViewport(new Rectangle2D(0, 0, FRAME_WIDTH, FRAME_HEIGHT));
+        spriteImageView.setViewport(new Rectangle2D(0, 0, diver.getFrameWidth(), diver.getFrameHeight()));
     }
 
     private void setupKeyboardControls() {
@@ -105,7 +105,6 @@ public class GameController implements Initializable {
         isMoving = true;
         idleAnimationTimeline.stop();
     }
-
 
     private void handleKeyReleased(KeyEvent event) {
         switch (event.getCode()) {
@@ -136,41 +135,37 @@ public class GameController implements Initializable {
     }
 
     private void updateAnimation() {
-        // Update posisi diver berdasarkan kecepatan dan status gerakan
         if (isMoving) {
-            currentFrame = (currentFrame + 1) % FRAME_COUNT;
+            currentFrame = (currentFrame + 1) % diver.getFrameCount();
 
-            // Menentukan model animasi berdasarkan arah gerakan
             if (diver.getRightPressed()) {
-                currentDirectionY = RIGHT_Y;  
+                currentDirectionY = diver.getRightY();
             } else if (diver.getLeftPressed()) {
-                currentDirectionY = LEFT_Y;   
+                currentDirectionY = diver.getLeftY();
             } else if (diver.getUpPressed()) {
-                currentDirectionY = UP_Y;     
+                currentDirectionY = diver.getUpY();
             } else if (diver.getDownPressed()) {
-                currentDirectionY = DOWN_Y;   
+                currentDirectionY = diver.getDownY();
             }
 
-            spriteImageView.setViewport(new Rectangle2D(currentFrame * FRAME_WIDTH, currentDirectionY, FRAME_WIDTH, FRAME_HEIGHT));
+            spriteImageView.setViewport(new Rectangle2D(currentFrame * diver.getFrameWidth(), currentDirectionY, diver.getFrameWidth(), diver.getFrameHeight()));
         }
 
-        // Environmet permainan berdasarkan ukuran gamePane
         double paneWidth = spriteImageView.getScene().getWidth();
         double paneHeight = spriteImageView.getScene().getHeight();
 
         diver.updatePosition(paneWidth, paneHeight);
 
-        // Membatasi posisi diver agar tidak keluar dari batas gamePane
         if (diver.getXPosition() < 0) {
-            diver.setXPosition(0);  
-        } else if (diver.getXPosition() > paneWidth - FRAME_WIDTH) {
-            diver.setXPosition(paneWidth - FRAME_WIDTH); 
+            diver.setXPosition(0);
+        } else if (diver.getXPosition() > paneWidth - diver.getFrameWidth()) {
+            diver.setXPosition(paneWidth - diver.getFrameWidth());
         }
 
         if (diver.getYPosition() < 0) {
-            diver.setYPosition(0);  
-        } else if (diver.getYPosition() > paneHeight - FRAME_HEIGHT) {
-            diver.setYPosition(paneHeight - FRAME_HEIGHT);  
+            diver.setYPosition(0);
+        } else if (diver.getYPosition() > paneHeight - diver.getFrameHeight()) {
+            diver.setYPosition(paneHeight - diver.getFrameHeight());
         }
 
         spriteImageView.setX(diver.getXPosition());
@@ -179,8 +174,28 @@ public class GameController implements Initializable {
 
     private void updateIdleAnimation() {
         if (!isMoving) {
-            currentFrame = (currentFrame + 1) % FRAME_COUNT;
-            spriteImageView.setViewport(new Rectangle2D(currentFrame * FRAME_WIDTH, UP_Y, FRAME_WIDTH, FRAME_HEIGHT));
+            currentFrame = (currentFrame + 1) % diver.getFrameCount();
+            spriteImageView.setViewport(new Rectangle2D(currentFrame * diver.getFrameWidth(), diver.getUpY(), diver.getFrameWidth(), diver.getFrameHeight()));
+        }
+    }
+
+    private void startTimer() {
+        countdownTimer = new Timeline(
+            new KeyFrame(Duration.seconds(1), e -> updateTimer())
+        );
+        countdownTimer.setCycleCount(Timeline.INDEFINITE);
+        countdownTimer.play();
+    }
+
+    private void updateTimer() {
+        if (remainingTimeInSeconds > 0) {
+            remainingTimeInSeconds--;
+            int minutes = remainingTimeInSeconds / 60;
+            int seconds = remainingTimeInSeconds % 60;
+            timerLabel.setText(String.format("TIMER: %02d:%02d", minutes, seconds));
+        } else {
+            countdownTimer.stop();
+            timerLabel.setText("Time's up!");
         }
     }
 }
