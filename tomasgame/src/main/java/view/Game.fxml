@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="gamePane" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: blue;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GameController">
+<AnchorPane id="AnchorPane" fx:id="gamePane" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: red;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GameController">
    <children>
-      <ImageView fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/zack-petropoulakis-deepsea.jpg" />
-         </image></ImageView>
       <ImageView fx:id="spriteImageView" fitHeight="128.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="mlSprite" fitHeight="150.0" fitWidth="200.0" layoutX="321.0" layoutY="192.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="obSprite" fitHeight="150.0" fitWidth="200.0" layoutX="238.0" layoutY="497.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="timerLabel" layoutX="1036.0" layoutY="27.0" prefHeight="45.0" prefWidth="218.0" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
