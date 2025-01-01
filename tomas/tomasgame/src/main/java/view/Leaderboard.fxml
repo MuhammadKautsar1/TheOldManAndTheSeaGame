@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LeaderboardController">
+   <children>
+      <ImageView fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/game.gif" />
+         </image></ImageView>
+      <VBox layoutX="287.0" layoutY="51.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Pane prefHeight="231.0" prefWidth="1920.0">
+               <children>
+                  <Button fx:id="mediumBtn" layoutX="566.0" layoutY="130.0" mnemonicParsing="false" onMouseClicked="#mediumClick" prefHeight="41.0" prefWidth="151.0" style="-fx-background-color: transparent;" text="MEDIUM">
+                     <font>
+                        <Font name="Tw Cen MT Condensed Extra Bold" size="19.0" />
+                     </font></Button>
+                  <Button fx:id="hardBtn" layoutX="717.0" layoutY="130.0" mnemonicParsing="false" onMouseClicked="#hardClick" prefHeight="41.0" prefWidth="151.0" style="-fx-background-color: blootransparentm;" text="HARD">
+                     <font>
+                        <Font name="Tw Cen MT Condensed Extra Bold" size="19.0" />
+                     </font></Button>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="341.0" layoutY="22.0" prefHeight="58.0" prefWidth="593.0" text="LEADERBOARD">
+                     <font>
+                        <Font name="Tw Cen MT" size="96.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="backBtn" mnemonicParsing="false" onMouseClicked="#LeaderboardBack" prefHeight="75.0" prefWidth="151.0" style="-fx-background-color: transparent;" text="Back">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/pngwing.com.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="Tw Cen MT" size="27.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="easyBtn" layoutX="415.0" layoutY="130.0" mnemonicParsing="false" onMouseClicked="#easyClick" prefHeight="41.0" prefWidth="151.0" style="-fx-background-color: transparent;" text="EASY">
+                     <font>
+                        <Font name="Tw Cen MT Condensed Extra Bold" size="19.0" />
+                     </font></Button>
+               </children>
+            </Pane>
+            <AnchorPane prefHeight="300.0" prefWidth="1280.0">
+               <children>
+                  <TableView fx:id="leaderboardTable" layoutX="262.0" prefHeight="544.0" prefWidth="1280.0" style="-fx-background-color: transparent; -fx-border-width: 20;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <columns>
+                      <TableColumn fx:id="rankColumn" prefWidth="-1.0" resizable="false" style="-fx-font-size: 30; -fx-alignment: center;" text="RANK" />
+                      <TableColumn fx:id="playersColumn" minWidth="0.0" prefWidth="714.399959564209" resizable="false" style="-fx-font-size: 30; -fx-alignment: center;" text="PLAYERS" />
+                        <TableColumn fx:id="pointsColumn" prefWidth="528.0" resizable="false" style="-fx-font-size: 30; -fx-alignment: center;" text="POINTS" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
