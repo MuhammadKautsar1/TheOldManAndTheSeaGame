@@ -1,81 +1,94 @@
 package controller;
 
-import java.net.URL;
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.ResourceBundle;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import model.History;
 import dao.HistoryDAO;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import model.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import model.History;
+import javafx.scene.control.cell.PropertyValueFactory;
 
-public class HistoryController implements Initializable {
+import java.sql.SQLException;
+import java.util.List;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import javax.swing.JOptionPane;
+
+public class HistoryController {
+    
+    @FXML
+    private Button backBtn;
 
     @FXML
-    private HBox hBox; // Bind ke elemen HBox di FXML
+    private TableView<History> historyTable;
 
-    private final HistoryDAO historyDAO = new HistoryDAO(); // Menggunakan DAO untuk mendapatkan data
+    @FXML
+    private TableColumn<History, Integer> colIdHistory;
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        int userId = 1; // Ganti dengan ID pengguna yang sesuai
+    @FXML
+    private TableColumn<History, String> colLevel;
 
-        // Ambil data sejarah pengguna menggunakan HistoryDAO
-        List<History> histories = historyDAO.getUserHistory(userId);
+    @FXML
+    private TableColumn<History, String> colDate;
 
-        // Iterasi untuk setiap entry dan tampilkan secara dinamis
-        for (History history : histories) {
-            VBox vbox = createHistoryPane(history);
-            hBox.getChildren().add(vbox);
-        }
+    @FXML
+    private TableColumn<History, Integer> colScore;
+
+    @FXML
+    private TableColumn<History, String> colUserName;
+
+    private ObservableList<History> historyList;
+
+    @FXML
+    public void initialize() {
+        // Inisialisasi kolom
+        colIdHistory.setCellValueFactory(new PropertyValueFactory<>("idHistory"));
+        colLevel.setCellValueFactory(new PropertyValueFactory<>("level"));
+        colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        colScore.setCellValueFactory(new PropertyValueFactory<>("score"));
+        colUserName.setCellValueFactory(new PropertyValueFactory<>("username"));
+
+        // Ambil data dari DAO dan tampilkan di TableView
+        historyList = FXCollections.observableArrayList();
+        loadHistoryData();
+        historyTable.setItems(historyList);
     }
 
-    private VBox createHistoryPane(History history) {
-        VBox vbox = new VBox();
-        vbox.setPrefWidth(329.0);
-        vbox.setPrefHeight(618.0);
-        vbox.setStyle("-fx-border-color: #000000; -fx-border-width: 2px; -fx-background-color: #f4f4f4;");
+    private void loadHistoryData() {
+        // Ambil data dari DAO
+        User currentUser = LoginController.user;
+        
+        if (currentUser != null){
+            int userId = currentUser.getUid();
+            List<History> histories = HistoryDAO.getHistoryById(userId);
+            historyList.addAll(histories);
+        }
+        
+    }
+    
+    @FXML
+    private void HistoryBack(MouseEvent event) {
+        try {
+            // Load MainMenu.fxml and show it in the current stage
+            URL url = new File("src/main/java/view/MainMenu.fxml").toURI().toURL();
+            Parent root = FXMLLoader.load(url);
+            Stage stage = (Stage) backBtn.getScene().getWindow();
 
-        // Level Label
-        String level = history.getLevel();
-        Label labelLevel = new Label(level.toUpperCase());
-        labelLevel.setPrefHeight(168.0);
-        labelLevel.setPrefWidth(329.0);
-        labelLevel.setStyle("-fx-font-size: 67px; -fx-alignment: center;");
-
-        // Score Pane
-        Pane scorePane = new Pane();
-        scorePane.setPrefHeight(329.0);
-        scorePane.setPrefWidth(329.0);
-
-        int score = history.getScore();
-        Label labelScore = new Label(String.valueOf(score));
-        labelScore.setLayoutX(191.0);
-        labelScore.setLayoutY(245.0);
-        labelScore.setPrefHeight(78.0);
-        labelScore.setPrefWidth(138.0);
-        labelScore.setStyle("-fx-font-size: 37px; -fx-alignment: center;");
-
-        Label labelScoreText = new Label("SCORE:");
-        labelScoreText.setLayoutX(155.0);
-        labelScoreText.setLayoutY(292.0);
-        labelScoreText.setStyle("-fx-font-size: 18px;");
-
-        scorePane.getChildren().addAll(labelScore, labelScoreText);
-
-        // Date Label
-        Timestamp date = history.getDate();
-        Label labelTime = new Label(date.toString());
-        labelTime.setPrefHeight(79.0);
-        labelTime.setPrefWidth(329.0);
-        labelTime.setStyle("-fx-font-size: 27px; -fx-alignment: center;");
-
-        vbox.getChildren().addAll(labelLevel, scorePane, labelTime);
-
-        return vbox;
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Failed to load Main Menu. Please check your FXML file!");
+        }
     }
 }

@@ -38,7 +38,7 @@
                      <graphic>
                         <ImageView fitHeight="25.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../assets/pngwing.com.png" />
+                              <Image url="@../assets/backbutton.png" />
                            </image>
                         </ImageView>
                      </graphic>

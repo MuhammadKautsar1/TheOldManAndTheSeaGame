@@ -1,17 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HistoryController">
+<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HistoryController">
    <children>
-      <ScrollPane layoutX="351.0" layoutY="245.33333333333334" prefHeight="635.0" prefWidth="1720.0" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="245.0">
+      <ImageView fitHeight="720.0" fitWidth="1280.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true" />
+      <ScrollPane layoutX="351.0" layoutY="172.0" prefHeight="348.0" prefWidth="1090.0" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="172.0">
          <content>
-            <HBox fx:id="hBox" prefHeight="618.0" prefWidth="1898.0">
-          
+            <HBox fx:id="hBox" prefHeight="336.0" prefWidth="1076.0">
+               <children>
+                  <TableView id="historyTable" fx:id="historyTable" prefHeight="726.0" prefWidth="1141.0">
+                    <columns>
+                      <TableColumn id="IdHistory" fx:id="colIdHistory" maxWidth="250.0" prefWidth="233.3333175778389" text="idHistory" />
+                        <TableColumn fx:id="colScore" maxWidth="250.0" prefWidth="201.59991455078125" text="score" />
+                        <TableColumn fx:id="colUserName" maxWidth="278.666748046875" prefWidth="199.199951171875" text="UserName" />
+                      <TableColumn fx:id="colLevel" maxWidth="691.4666748046875" minWidth="77.86662292480469" prefWidth="190.4001007080078" text="level" />
+                        <TableColumn fx:id="colDate" maxWidth="250.0" prefWidth="952.7998657226562" text="date" />
+                    </columns>
+                  </TableView>
+               </children>
             </HBox>
          </content>
       </ScrollPane>
+      <Button fx:id="backBtn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#HistoryBack" prefHeight="75.0" prefWidth="151.0" style="-fx-background-color: transparent;" text="Back">
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/backbutton.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font name="Tw Cen MT" size="27.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
