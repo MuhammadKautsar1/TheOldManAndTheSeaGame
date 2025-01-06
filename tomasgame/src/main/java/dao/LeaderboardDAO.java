@@ -63,9 +63,6 @@ public class LeaderboardDAO {
     } catch (SQLException e) {
         e.printStackTrace();
     }
-
     return leaderboardList;
-}
-
-
+    }
 }

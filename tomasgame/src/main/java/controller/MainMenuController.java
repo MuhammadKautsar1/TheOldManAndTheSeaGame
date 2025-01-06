@@ -16,19 +16,14 @@ import javax.swing.JOptionPane;
 
 public class MainMenuController {
     
-    
     @FXML
     private Button startGameButton;
-    
     @FXML
     private Button bookButton;
-    
     @FXML
     private Button historyButton;
-    
     @FXML
     private Button leaderboardButton;
-    
     @FXML
     private Button quitButton;
    
@@ -49,8 +44,8 @@ public class MainMenuController {
     }
     
     @FXML
-void handleLeaderboard(MouseEvent event) throws IOException {
-try {
+    void handleLeaderboard(MouseEvent event) throws IOException {
+    try {
         URL url = new File("src/main/java/view/Leaderboard.fxml").toURI().toURL(); 
         Parent root = FXMLLoader.load(url);
         Stage stage = (Stage) leaderboardButton.getScene().getWindow(); 
@@ -58,7 +53,7 @@ try {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-    } catch (IOException e) {
+        } catch (IOException e) {
         e.printStackTrace();
         JOptionPane.showMessageDialog(null, "Gagal memuat halaman Login. Periksa file FXML Anda!");
         }
@@ -91,10 +86,25 @@ try {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-    } catch (IOException e) {
+        } catch (IOException e) {
         e.printStackTrace();
         JOptionPane.showMessageDialog(null, "Gagal memuat halaman game. Periksa file FXML Anda!");
         }
     }
+    
+    @FXML
+    private void handleBook(MouseEvent event) {
+        try {
+        URL url = new File("src/main/java/view/Book.fxml").toURI().toURL(); 
+        Parent root = FXMLLoader.load(url);
+        Stage stage = (Stage) bookButton.getScene().getWindow(); 
+        
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        } catch (IOException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Gagal memuat halaman buku. Periksa file FXML Anda!");
+        }
+    }
 }
-

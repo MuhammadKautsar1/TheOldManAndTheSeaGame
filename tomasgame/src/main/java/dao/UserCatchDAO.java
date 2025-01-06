@@ -18,7 +18,6 @@ public class UserCatchDAO {
     private static PreparedStatement st;
     private static Connection con;
 
-    // digunakan ketika player menangkap biota
     public static void addUserCatch(int userId, int marineLifeId) {
         try {
             con = getCon();
@@ -40,7 +39,7 @@ public class UserCatchDAO {
         try {
             con = getCon();
             String query = """
-                SELECT ml.id_marinelife, ml.name, ml.classification, ml.points, ml.description
+                SELECT ml.id_marinelife, ml.name, ml.classification, ml.points, ml.description, ml.id_image
                 FROM user_catch as uc
                 JOIN marinelife as ml ON uc.id_marinelife = ml.id_marinelife
                 WHERE uc.id_user = ?
@@ -54,12 +53,13 @@ public class UserCatchDAO {
 
                 if (!uniqueMlId.contains(marineLifeId)) {
                     MarineLife marineLife = new MarineLife(
-                        marineLifeId,
-                        rs.getString("name"),
-                        rs.getString("classification"), 
-                        rs.getInt("points"),          
-                        rs.getString("description")
-                    );
+                    rs.getInt("id_marinelife"),  
+                    rs.getString("name"),         
+                    rs.getString("classification"),
+                    rs.getInt("points"),          
+                    rs.getString("description"),
+                    rs.getInt("id_image")          // Include id_image
+                );
                     marineLifeBook.add(marineLife);
                     uniqueMlId.add(marineLifeId);
                 }

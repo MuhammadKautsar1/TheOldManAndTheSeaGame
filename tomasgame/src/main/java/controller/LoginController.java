@@ -26,13 +26,10 @@ public class LoginController implements Initializable {
 
     @FXML
     private TextField usernameField;
-
     @FXML
     private PasswordField passwordField;
-
     @FXML
     private Button loginButton;
-
     @FXML
     private Button signUpButton;
 
@@ -50,7 +47,6 @@ public class LoginController implements Initializable {
             JOptionPane.showMessageDialog(null, "Username dan Password tidak boleh kosong!");
             return;
         }
-
         if (loginButton.getText().equals("LOGIN")) {
             try {
                 user = UserDAO.validate(usernameField.getText(), passwordField.getText());
@@ -87,7 +83,6 @@ public class LoginController implements Initializable {
             URL url = new File("src/main/java/view/Signup.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);
             Stage stage = (Stage) signUpButton.getScene().getWindow();
-
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
@@ -95,6 +90,10 @@ public class LoginController implements Initializable {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Gagal memuat halaman Signup. Periksa file FXML Anda!");
         }
+    }
+
+    public void showLoginView() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

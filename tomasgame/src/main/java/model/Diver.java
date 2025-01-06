@@ -24,19 +24,18 @@ public class Diver extends User {
     private static final int DOWN_Y = 384;
     private static final int LEFT_Y = 512;
     private static final int RIGHT_Y = 128;
-    private static final int FRAME_COUNT = 5;
+    private static final int FRAME_COUNT = 12;
 
     private boolean upPressed = false;
     private boolean downPressed = false;
     private boolean leftPressed = false;
     private boolean rightPressed = false;
 
-    public Diver(User user, double xPosition, double yPosition, int catchRadius, Image spriteImage) {
+    public Diver(User user, double xPosition, double yPosition, Image spriteImage) {
         super(user.getUid(), user.getUname(), user.getPass());
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.caughtFish = 0;
-        this.catchRadius = catchRadius;
         this.sprite = new ImageView(spriteImage);
         this.sprite.setFitWidth(catchRadius * 2); 
         this.sprite.setFitHeight(catchRadius * 2);
@@ -192,13 +191,5 @@ public class Diver extends User {
 
     public int getFrameCount() {
         return FRAME_COUNT;
-    }
-
-    public boolean isNear(MarineLife lifes) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public void catchFish(MarineLife lifes) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

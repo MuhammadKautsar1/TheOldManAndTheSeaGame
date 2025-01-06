@@ -30,22 +30,17 @@ public class LeaderboardController implements Initializable {
 
     @FXML
     private Button backBtn;
-
     @FXML
     private Button mediumBtn;
-
     @FXML
     private Button easyBtn;
-
     @FXML
     private Button hardBtn;
 
     @FXML
     private TableColumn<Leaderboard, Integer> rankColumn;
-
     @FXML
     private TableColumn<Leaderboard, String> playersColumn;
-
     @FXML
     private TableColumn<Leaderboard, Integer> pointsColumn;
 
@@ -94,7 +89,6 @@ public class LeaderboardController implements Initializable {
             URL url = new File("src/main/java/view/MainMenu.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);
             Stage stage = (Stage) backBtn.getScene().getWindow();
-
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
@@ -115,7 +109,6 @@ public class LeaderboardController implements Initializable {
             next.setRank(i + 1); // Set rank based on the order of the list
             top10.add(next);
         }
-
         // Set the items for the leaderboard table
         leaderboardTable.setItems(top10);
     }

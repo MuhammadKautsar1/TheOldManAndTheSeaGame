@@ -24,13 +24,10 @@ public class SignUpController {
 
     @FXML
     private TextField usernameField;
-
     @FXML
     private PasswordField passwordField;
-
     @FXML
     private Button signUpButton;
-
     @FXML
     private Button loginButton;
 
@@ -59,13 +56,12 @@ public class SignUpController {
     }
 
     @FXML
-void handleButtonEvent(ActionEvent event) throws IOException {
+    void handleButtonEvent(ActionEvent event) throws IOException {
     // Validasi input tidak boleh kosong
     if (usernameField.getText().isEmpty() || passwordField.getText().isEmpty()) {
         JOptionPane.showMessageDialog(null, "Username dan Password tidak boleh kosong!");
         return;
     }
-
     try {
         // Cek apakah username sudah digunakan
         if (UserDAO.isUsernameTaken(usernameField.getText())) {
@@ -76,14 +72,12 @@ void handleButtonEvent(ActionEvent event) throws IOException {
         // Buat user baru dan lakukan pendaftaran
         User newUser = new User(usernameField.getText(), passwordField.getText(), "password");
         UserDAO.registerUser(newUser);
-
         JOptionPane.showMessageDialog(null, "Pendaftaran berhasil! Silakan login.");
 
         // Pindah ke halaman Login.fxml
         URL url = new File("src/main/java/view/Login.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Stage stage = (Stage) signUpButton.getScene().getWindow();
-
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();

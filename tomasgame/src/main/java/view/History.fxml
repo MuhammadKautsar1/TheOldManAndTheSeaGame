@@ -10,9 +10,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HistoryController">
+<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.HistoryController">
    <children>
-      <ImageView fitHeight="720.0" fitWidth="1280.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fitHeight="720.0" fitWidth="1280.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/history.gif" />
+         </image></ImageView>
       <ScrollPane layoutX="351.0" layoutY="172.0" prefHeight="348.0" prefWidth="1090.0" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="172.0">
          <content>
             <HBox fx:id="hBox" prefHeight="336.0" prefWidth="1076.0">
@@ -30,7 +33,7 @@
             </HBox>
          </content>
       </ScrollPane>
-      <Button fx:id="backBtn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#HistoryBack" prefHeight="75.0" prefWidth="151.0" style="-fx-background-color: transparent;" text="Back">
+      <Button fx:id="backBtn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#HistoryBack" prefHeight="75.0" prefWidth="151.0" style="-fx-background-color: transparent;" text="Back" textFill="#fff9f9">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                <image>
