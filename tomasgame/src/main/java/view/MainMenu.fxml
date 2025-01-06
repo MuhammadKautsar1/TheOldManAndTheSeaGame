@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: linear-gradient(to bottom, #145da0, #1e3c72);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainMenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: linear-gradient(to bottom, #145da0, #1e3c72);" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainMenuController">
    <ImageView fitHeight="720.0" fitWidth="1920.0" pickOnBounds="true" preserveRatio="true">
       <image>
          <Image url="@../assets/mainmenu.gif" />
@@ -15,20 +15,11 @@
    <AnchorPane layoutX="264.0" layoutY="144.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="432.0" prefWidth="750.0">
       <children>
            <Button fx:id="quitButton" layoutX="228.0" layoutY="381.0" onMouseClicked="#handleQuitButtonEvent" prefHeight="21.0" prefWidth="300" style="-fx-text-fill: white; -fx-background-color: red; -fx-font-size: 16px;" text="Quit" />
-           <Button fx:id="leaderboardButton" layoutX="537.0" layoutY="199.0" onMouseClicked="#handleLeaderboard" prefHeight="108.0" prefWidth="97.0" style="-fx-background-color: #4a90e2; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 50%;">
-            <graphic>
-               <ImageView fitHeight="94.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                     <Image url="@../assets/leaderboard.png" />
-                  </image>
-               </ImageView>
-            </graphic>
-         </Button>
-           <Button fx:id="historyButton" layoutX="228.0" layoutY="91.0" onMouseClicked="#handleHistory" prefWidth="300" style="-fx-background-color: #4a90e2; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 10;" text="History" />
+           <Button fx:id="leaderboardButton" layoutX="328.0" layoutY="46.0" onMouseClicked="#handleLeaderboard" prefHeight="90.0" prefWidth="94.0" style="-fx-background-color: #4a90e2; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 50%;" />
            <Button fx:id="bookButton" layoutX="101.0" layoutY="199.0" onMouseClicked="#handleBook" prefHeight="90.0" prefWidth="108.0" style="-fx-background-color: #4a90e2; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 10;" />
            
-                 <Button fx:id="startGameButton" layoutX="266.0" layoutY="148.0" onMouseClicked="#handleGame" prefHeight="210.0" prefWidth="224.0" style="-fx-background-color: #4a90e2; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 50%;" />
-           <Text layoutX="285.0" layoutY="53.0" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-fill: black;" text="Main Menu" />
+           <Button fx:id="startGameButton" layoutX="266.0" layoutY="148.0" onMouseClicked="#handleGame" prefHeight="210.0" prefWidth="224.0" style="-fx-background-color: #4a90e2; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 50%;" />
+           <Text layoutX="281.0" layoutY="28.0" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-fill: black;" text="Main Menu" />
          <ImageView fitHeight="123.0" fitWidth="181.0" layoutX="336.0" layoutY="191.0" onMouseClicked="#handleGame" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@../assets/playbutton.png" />
@@ -37,6 +28,17 @@
          <ImageView fitHeight="90.0" fitWidth="94.0" layoutX="108.0" layoutY="199.0">
             <image>
                <Image url="@../assets/buku.png" />
+            </image>
+         </ImageView>
+         <ImageView fitHeight="75.0" fitWidth="72.0" layoutX="339.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../assets/leaderboard.png" />
+            </image>
+         </ImageView>
+           <Button fx:id="historyButton" layoutX="558.0" layoutY="199.0" onMouseClicked="#handleHistory" prefHeight="90.0" prefWidth="108.0" style="-fx-background-color: #4a90e2; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 10;" />
+         <ImageView fitHeight="64.0" fitWidth="72.0" layoutX="580.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../assets/history-line-icon.png" />
             </image>
          </ImageView>
       </children>

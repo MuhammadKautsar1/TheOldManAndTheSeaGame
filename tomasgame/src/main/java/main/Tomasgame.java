@@ -16,7 +16,7 @@ public class Tomasgame extends Application {
         try {
             // Load the Login.fxml file from the resources folder (view package)
             // Make sure that Login.fxml is placed under src/main/resources/view/
-            URL url = new File("src/main/java/view/Game.fxml").toURI().toURL();
+            URL url = new File("src/main/java/view/Media.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);  // Load FXML from the file URL
 
             // Create a scene from the FXML file
