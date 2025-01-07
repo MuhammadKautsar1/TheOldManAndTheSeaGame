@@ -20,27 +20,7 @@ public class ImageDAO extends BaseDAO{
     private static Connection con;
     
     
-    public static void insertEntry(byte[] imageData, File file) throws SQLException {
-        
-        try {
-            
-            con = getCon(); 
-            String query = "INSERT INTO images (name, data) VALUES (?, ?)";
-            st = con.prepareStatement(query);
-            st.setString(1, file.getName()); 
-            st.setBytes(2, imageData);
-            
-           
-            int rowsInserted = st.executeUpdate();
-            if (rowsInserted > 0) {
-                    System.out.println("Image saved successfully!");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            closeCon(con);
-        }
-    }
+  
     
     public static ArrayList<byte[]> getImages() {
         ArrayList<byte[]> result = new ArrayList();
@@ -67,7 +47,7 @@ public class ImageDAO extends BaseDAO{
     byte[] imageData = null;
     try {
         con = getCon();
-        String sql = "SELECT data FROM images WHERE id = ?";
+        String sql = "SELECT data FROM images WHERE id_image = ?";
         st = con.prepareStatement(sql);
         st.setInt(1, imageId);
         ResultSet rs = st.executeQuery();

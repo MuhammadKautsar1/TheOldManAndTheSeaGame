@@ -30,4 +30,4 @@ public class Environment {
     public int getMaxY() {
         return maxY;
     }
-}
+}   

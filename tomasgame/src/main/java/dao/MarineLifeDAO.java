@@ -7,43 +7,72 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.image.Image;
+
+import static dao.BaseDAO.getCon;
+import static dao.BaseDAO.closeCon;
 import java.io.ByteArrayInputStream;
+import javafx.scene.image.Image;
 
 public class MarineLifeDAO {
-    private static final String SELECT_ALL = "SELECT m.id_marinelife, m.name, m.classification, m.points, m.description, m.id_image, i.data " +
-                                           "FROM marinelife m LEFT JOIN images i ON m.id_image = i.id_image";
+    
+    private static final String SELECT_ALL = "SELECT id_marinelife, name, classification, points, description, id_image FROM marinelife";
 
+    // Mendapatkan semua data MarineLife dari database
     public static List<MarineLife> getAllMarineLife() {
         List<MarineLife> marineLifeList = new ArrayList<>();
         
-        try (Connection con = BaseDAO.getCon();
+        try (Connection con = getCon(); 
              PreparedStatement st = con.prepareStatement(SELECT_ALL);
              ResultSet rs = st.executeQuery()) {
-            
+             
             while (rs.next()) {
-                byte[] imageData = rs.getBytes("data");
-                Image image = null;
-                if (imageData != null) {
-                    image = new Image(new ByteArrayInputStream(imageData));
-                }
-                
+                // Fetch data dan buat objek MarineLife
                 MarineLife marineLife = new MarineLife(
-                    rs.getInt("id_marinelife"),
-                    rs.getString("name"),
+                    rs.getInt("id_marinelife"),  
+                    rs.getString("name"),         
                     rs.getString("classification"),
-                    rs.getInt("points"),
+                    rs.getInt("points"),          
                     rs.getString("description"),
-                    rs.getInt("id_image"),
-                    null,  // environment will be set later if needed
-                    image
+                    rs.getInt("id_image")          // Termasuk id_image
                 );
                 marineLifeList.add(marineLife);
             }
         } catch (SQLException e) {
             System.err.println("Error fetching marine life: " + e.getMessage());
         }
+
         return marineLifeList;
+    }
+    
+    // Mendapatkan poin dari MarineLife berdasarkan ID
+    public static int getMarineLifePoints(int marineLifeId) {
+        int points = 0;
+        ResultSet rs = null;
+        PreparedStatement st = null; // Pastikan PreparedStatement dideklarasikan dengan benar
+        Connection con = null; // Pastikan Connection juga diinisialisasi
+
+        try {
+            con = getCon();
+            String query = "SELECT points FROM marinelife WHERE id_marinelife = ?";
+            st = con.prepareStatement(query);
+            st.setInt(1, marineLifeId);
+            rs = st.executeQuery();
+
+            if (rs.next()) {
+                points = rs.getInt("points");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (st != null) st.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            closeCon(con);
+        }
+        return points;
     }
 
     public static MarineLife getMarineLifeById(int id) {

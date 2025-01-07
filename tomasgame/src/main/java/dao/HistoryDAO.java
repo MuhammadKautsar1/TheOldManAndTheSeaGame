@@ -46,4 +46,58 @@ public class HistoryDAO {
 
         return historyList;
     }
+
+    // Metode untuk menghitung total skor berdasarkan ID user
+    public static int getTotalScore(int userId) {
+        int totalScore = 0;
+        String query = """
+            SELECT SUM(m.points) AS totalScore
+            FROM user_catch uc
+            JOIN marinelife m ON uc.id_marinelife = m.id_marinelife
+            WHERE uc.id_user = ?
+        """;
+
+        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement st = con.prepareStatement(query)) {
+
+            st.setInt(1, userId);
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    totalScore = rs.getInt("totalScore");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching total score by user ID: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return totalScore;
+    }
+    
+    public static boolean addHistory(String level, Timestamp date, int score, int userId) {
+    boolean isAdded = false;
+    String query = """
+        INSERT INTO history (level, date, score, id_user)
+        VALUES (?, ?, ?, ?)
+    """;
+
+    try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
+         PreparedStatement st = con.prepareStatement(query)) {
+
+        st.setString(1, level);
+        st.setTimestamp(2, date);
+        st.setInt(3, score);
+        st.setInt(4, userId);
+
+        int rowsAffected = st.executeUpdate();
+        isAdded = rowsAffected > 0;
+
+    } catch (SQLException e) {
+        System.err.println("Error adding history: " + e.getMessage());
+        e.printStackTrace();
+    }
+
+    return isAdded;
+}
+
 }
