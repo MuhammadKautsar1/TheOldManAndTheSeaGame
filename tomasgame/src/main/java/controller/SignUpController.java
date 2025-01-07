@@ -18,6 +18,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javax.swing.JOptionPane;
 
 public class SignUpController {
@@ -30,8 +32,12 @@ public class SignUpController {
     private Button signUpButton;
     @FXML
     private Button loginButton;
-
     private Stage primaryStage;
+    private MediaPlayer mediaPlayer;
+    
+    public void initialize() {
+        playBackgroundMusic();
+    }
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -39,6 +45,7 @@ public class SignUpController {
 
     @FXML
     void handleSignUpButtonEvent(MouseEvent event) throws IOException {
+        stopBackgroundMusic();
         
         // Pindah ke halaman Login.fxml
         try {
@@ -57,6 +64,7 @@ public class SignUpController {
 
     @FXML
     void handleButtonEvent(ActionEvent event) throws IOException {
+        stopBackgroundMusic();
     // Validasi input tidak boleh kosong
     if (usernameField.getText().isEmpty() || passwordField.getText().isEmpty()) {
         JOptionPane.showMessageDialog(null, "Username dan Password tidak boleh kosong!");
@@ -73,6 +81,7 @@ public class SignUpController {
         User newUser = new User(usernameField.getText(), passwordField.getText(), "password");
         UserDAO.registerUser(newUser);
         JOptionPane.showMessageDialog(null, "Pendaftaran berhasil! Silakan login.");
+        stopBackgroundMusic();
 
         // Pindah ke halaman Login.fxml
         URL url = new File("src/main/java/view/Login.fxml").toURI().toURL();
@@ -84,7 +93,27 @@ public class SignUpController {
     } catch (IOException e) {
         e.printStackTrace();
         JOptionPane.showMessageDialog(null, "Gagal memuat halaman Login. Periksa file FXML Anda!");
+        }
     }
-}
+    
+    private void playBackgroundMusic() {
+        // Tentukan lokasi file musik
+        String musicFile = "src/main/java/assets/login.mp3";  // Sesuaikan dengan lokasi file musik Anda
+        File musicPath = new File(musicFile);
 
+        if (musicPath.exists()) {
+            Media media = new Media(musicPath.toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);  // Memutar musik secara terus-menerus
+            mediaPlayer.play();
+        } else {
+            JOptionPane.showMessageDialog(null, "Musik tidak ditemukan!");
+        }
+    }
+    
+    private void stopBackgroundMusic() {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();  // Stop the music
+        }
+    }
 }

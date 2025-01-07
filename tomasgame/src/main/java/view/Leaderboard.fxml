@@ -52,13 +52,13 @@
                      </font></Button>
                </children>
             </Pane>
-            <AnchorPane prefHeight="300.0" prefWidth="1280.0">
+            <AnchorPane prefHeight="300.0" prefWidth="1090.0">
                <children>
-                  <TableView fx:id="leaderboardTable" layoutX="262.0" prefHeight="544.0" prefWidth="1280.0" style="-fx-background-color: transparent; -fx-border-width: 20;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <TableView fx:id="leaderboardTable" layoutX="262.0" prefHeight="348.0" prefWidth="1090.0" style="-fx-background-color: transparent; -fx-border-width: 20;" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
                     <columns>
-                      <TableColumn fx:id="rankColumn" prefWidth="-1.0" resizable="false" style="-fx-font-size: 30; -fx-alignment: center;" text="RANK" />
-                      <TableColumn fx:id="playersColumn" minWidth="0.0" prefWidth="714.399959564209" resizable="false" style="-fx-font-size: 30; -fx-alignment: center;" text="PLAYERS" />
-                        <TableColumn fx:id="pointsColumn" prefWidth="528.0" resizable="false" style="-fx-font-size: 30; -fx-alignment: center;" text="POINTS" />
+                      <TableColumn fx:id="rankColumn" prefWidth="161.33336997032166" resizable="false" style="-fx-font-size: 30; -fx-alignment: center;" text="RANK" />
+                      <TableColumn fx:id="playersColumn" minWidth="0.0" prefWidth="555.1999816894531" resizable="false" style="-fx-font-size: 30; -fx-alignment: center;" text="PLAYERS" />
+                        <TableColumn fx:id="pointsColumn" prefWidth="537.5999755859375" resizable="false" style="-fx-font-size: 30; -fx-alignment: center;" text="POINTS" />
                     </columns>
                   </TableView>
                </children>

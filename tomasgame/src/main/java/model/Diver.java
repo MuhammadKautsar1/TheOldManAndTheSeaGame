@@ -13,7 +13,7 @@ public class Diver extends User {
 
     private double velocityX = 0;
     private double velocityY = 0;
-    private static final double PLAYER_SPEED = 2.0;
+    private static final double PLAYER_SPEED = 3.0;
     private static final double FRICTION = 0.8;
     private static final double MIN_VELOCITY = 0.1;
 

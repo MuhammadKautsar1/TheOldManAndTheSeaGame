@@ -42,6 +42,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import model.Environment;
 
@@ -57,9 +59,15 @@ public class GameController implements Initializable {
     private Button backButton;
     @FXML
     private ImageView marineLifeSprite;
- 
-
+    @FXML
+    private Label scoreLabel;
+    @FXML
+    private ProgressBar healthPoint;
+    @FXML
+    private ImageView obstacleSprite;
+    
     private static final double CATCH_DISTANCE = 50; // Jarak maksimum untuk menangkap marine life
+    private MediaPlayer mediaPlayer;
 
     private Diver diver;
     private static final int ANIMATION_DURATION = 130;
@@ -78,14 +86,16 @@ public class GameController implements Initializable {
     private Timeline marineLifeSpawnTimeline;
     private Timeline marineLifeMovementTimeline;
 
-    private int remainingTimeInSeconds = 20;
+    private int remainingTimeInSeconds = 60;
 
     private Random random = new Random();
 
+    private ArrayList<ImageView> bombList = new ArrayList<>(); // Daftar bomb
     private ArrayList<MarineLife> marineLifeList = new ArrayList<>(); // Daftar MarineLife
 
     @Override
-public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb) {
+    playBackgroundMusic();
     try {
         initializeDiver();
         setupSprite();
@@ -132,7 +142,6 @@ public void initialize(URL url, ResourceBundle rb) {
 
     private void handleKeyPressed(KeyEvent event) {
         if (diver == null) return;
-
         switch (event.getCode()) {
             case W -> diver.setUpPressed(true);
             case S -> diver.setDownPressed(true);
@@ -188,7 +197,6 @@ public void initialize(URL url, ResourceBundle rb) {
         }
     }
 
-
     private void setupAnimation() {
         animationTimeline = new Timeline(
             new KeyFrame(Duration.millis(ANIMATION_DURATION), e -> updateAnimation())
@@ -241,7 +249,7 @@ public void initialize(URL url, ResourceBundle rb) {
         if (distance <= CATCH_DISTANCE) {
             caughtMarineLifeList.add(marineLife);
 
-            // Simpan tangkapan ke database
+            // menyimpan hasil tangkapan ke database
             try {
                 UserCatchDAO.addUserCatch(user.getUid(), marineLife.getId());
             } catch (Exception e) {
@@ -254,17 +262,12 @@ public void initialize(URL url, ResourceBundle rb) {
         }
     }
 
-    // Hapus marine life yang telah tertangkap dari daftar
+    // Hapus marinelife yang telah tertangkap dari daftar
     for (MarineLife caught : caughtMarineLifeList) {
         marineLifeList.remove(caught);
         removeCaughtMarineLife(caught);
+        }
     }
-}
-
-
-   
-
-
     private void updateIdleAnimation() {
         if (diver == null || isMoving) return;
 
@@ -308,20 +311,19 @@ public void initialize(URL url, ResourceBundle rb) {
         countdownTimer.stop();
         timerLabel.setText("Time's up!");
         endGame(); // Akhiri permainan
+        }
     }
-}
-
 
     private void startMarineLifeSpawning() {
         marineLifeSpawnTimeline = new Timeline(
-            new KeyFrame(Duration.seconds(5), e -> spawnMarineLife())
+            new KeyFrame(Duration.seconds(1), e -> spawnMarineLife())
         );
         marineLifeSpawnTimeline.setCycleCount(Timeline.INDEFINITE);
         marineLifeSpawnTimeline.play();
     }
 
     private double getRandomSpawnInterval() {
-        return 5 + random.nextDouble() * 5; // Random antara 5 hingga 10 detik
+        return 3 + random.nextDouble() * 5; // Random antara 5 hingga 10 detik
     }
 
     private void updateSpawnInterval() {
@@ -339,17 +341,12 @@ public void initialize(URL url, ResourceBundle rb) {
         if (images != null && !images.isEmpty() && images.size() > 1) {
             byte[] imageData = images.get(1);
             Image spriteImage = new Image(new ByteArrayInputStream(imageData));
-
-            // Create environment using gamePane's width and height
             Environment environment = new Environment(0, gamePane1.getWidth(), 0, gamePane1.getHeight());
-
-            // Create MarineLife object with specific attributes for type 1
             MarineLife marineLife = new MarineLife(1, "Marine Life Type 1", "Classification", 10, "Description", 10, environment, spriteImage);
-            marineLife.initializePositionAndDirection(); // Initialize position and movement direction
-
+            marineLife.initializePositionAndDirection(); // Initialisasi posisi dan kecepatan arah
             return marineLife;
         } else {
-            throw new IllegalStateException("No marine life sprite found in the database or invalid index.");
+            throw new IllegalStateException("Tidak ada data ikan didata Base");
         }
     }
 
@@ -358,17 +355,12 @@ public void initialize(URL url, ResourceBundle rb) {
         if (images != null && !images.isEmpty() && images.size() > 2) {
             byte[] imageData = images.get(2);
             Image spriteImage = new Image(new ByteArrayInputStream(imageData));
-
-            // Create environment using gamePane's width and height
             Environment environment = new Environment(0, gamePane1.getWidth(), 0, gamePane1.getHeight());
-
-            // Create MarineLife object with specific attributes for type 2
             MarineLife marineLife = new MarineLife(2, "Marine Life Type 2", "Classification", 20, "Description", 15, environment, spriteImage);
-            marineLife.initializePositionAndDirection(); // Initialize position and movement direction
-
+            marineLife.initializePositionAndDirection(); // Initialisasi posisi dan kecepatan arah
             return marineLife;
         } else {
-            throw new IllegalStateException("No marine life sprite found in the database or invalid index.");
+            throw new IllegalStateException("Tidak ada data ikan didata Base");
         }
     }
     
@@ -377,36 +369,131 @@ public void initialize(URL url, ResourceBundle rb) {
         if (images != null && !images.isEmpty() && images.size() > 2) {
             byte[] imageData = images.get(3);
             Image spriteImage = new Image(new ByteArrayInputStream(imageData));
-
             Environment environment = new Environment(3, gamePane1.getWidth(), 0, gamePane1.getHeight());
-
-            // Create MarineLife object with specific attributes for type 2
             MarineLife marineLife = new MarineLife(3, "Marine Life Type 3", "Classification", 30, "Description", 15, environment, spriteImage);
+            marineLife.initializePositionAndDirection(); // Initialisasi posisi dan kecepatan arah
+            return marineLife;
+        } else {
+            throw new IllegalStateException("NTidak ada data ikan didata Base");
+        }
+    }
+    
+    private MarineLife MarineLife4(double xPosition, double yPosition) throws SQLException {
+        ArrayList<byte[]> images = ImageDAO.getImages();
+        if (images != null && !images.isEmpty() && images.size() > 1) {
+            byte[] imageData = images.get(4);
+            Image spriteImage = new Image(new ByteArrayInputStream(imageData));
+            Environment environment = new Environment(0, gamePane1.getWidth(), 0, gamePane1.getHeight());
+            MarineLife marineLife = new MarineLife(4, "Marine Life Type 1", "Classification", 10, "Description", 10, environment, spriteImage);
             marineLife.initializePositionAndDirection(); // Initialize position and movement direction
+            return marineLife;
+        } else {
+            throw new IllegalStateException("Tidak ada data ikan didata Base");
+        }
+    }
+    
+    private MarineLife MarineLife5(double xPosition, double yPosition) throws SQLException {
+        ArrayList<byte[]> images = ImageDAO.getImages();
+        if (images != null && !images.isEmpty() && images.size() > 1) {
+            byte[] imageData = images.get(5);
+            Image spriteImage = new Image(new ByteArrayInputStream(imageData));
+            Environment environment = new Environment(0, gamePane1.getWidth(), 0, gamePane1.getHeight());
+            MarineLife marineLife = new MarineLife(5, "Marine Life Type 1", "Classification", 10, "Description", 10, environment, spriteImage);
+            marineLife.initializePositionAndDirection(); // Initialisasi posisi dan kecepatan arah
+            return marineLife;
+        } else {
+            throw new IllegalStateException("Tidak ada data ikan didata Base");
+        }
+    }
+    
+    private MarineLife MarineLife6(double xPosition, double yPosition) throws SQLException {
+        ArrayList<byte[]> images = ImageDAO.getImages();
+        if (images != null && !images.isEmpty() && images.size() > 1) {
+            byte[] imageData = images.get(6);
+            Image spriteImage = new Image(new ByteArrayInputStream(imageData));
+            Environment environment = new Environment(0, gamePane1.getWidth(), 0, gamePane1.getHeight());
+            MarineLife marineLife = new MarineLife(6, "Marine Life Type 1", "Classification", 10, "Description", 10, environment, spriteImage);
+            marineLife.initializePositionAndDirection(); // Initialisasi posisi dan kecepatan arah
+            return marineLife;
+        } else {
+            throw new IllegalStateException("Tidak ada data ikan didata Base");
+        }
+    }
+    
+    private MarineLife MarineLife7(double xPosition, double yPosition) throws SQLException {
+        ArrayList<byte[]> images = ImageDAO.getImages();
+        if (images != null && !images.isEmpty() && images.size() > 1) {
+            byte[] imageData = images.get(7);
+            Image spriteImage = new Image(new ByteArrayInputStream(imageData));
+            Environment environment = new Environment(0, gamePane1.getWidth(), 0, gamePane1.getHeight());
+            MarineLife marineLife = new MarineLife(7, "Marine Life Type 1", "Classification", 10, "Description", 10, environment, spriteImage);
+            marineLife.initializePositionAndDirection(); // Initialisasi posisi dan kecepatan arah
+            return marineLife;
+        } else {
+            throw new IllegalStateException("Tidak ada data ikan didata Base");
+        }
+    }
+    
+    private MarineLife MarineLife8(double xPosition, double yPosition) throws SQLException {
+        ArrayList<byte[]> images = ImageDAO.getImages();
+        if (images != null && !images.isEmpty() && images.size() > 1) {
+            byte[] imageData = images.get(8);
+            Image spriteImage = new Image(new ByteArrayInputStream(imageData));
+            Environment environment = new Environment(0, gamePane1.getWidth(), 0, gamePane1.getHeight());
+            MarineLife marineLife = new MarineLife(8, "Marine Life Type 1", "Classification", 10, "Description", 10, environment, spriteImage);
+            marineLife.initializePositionAndDirection(); // Initialisasi posisi dan kecepatan arah
+            return marineLife;
+        } else {
+            throw new IllegalStateException("Tidak ada data ikan didata Base");
+        }
+    }
+    
+    private MarineLife MarineLife9(double xPosition, double yPosition) throws SQLException {
+        ArrayList<byte[]> images = ImageDAO.getImages();
+        if (images != null && !images.isEmpty() && images.size() > 1) {
+            byte[] imageData = images.get(9);
+            Image spriteImage = new Image(new ByteArrayInputStream(imageData));
+            Environment environment = new Environment(0, gamePane1.getWidth(), 0, gamePane1.getHeight());
+            // Create MarineLife object with specific attributes for type 1
+            MarineLife marineLife = new MarineLife(9, "Marine Life Type 1", "Classification", 10, "Description", 10, environment, spriteImage);
+            marineLife.initializePositionAndDirection(); // Initialisasi posisi dan kecepatan arah
 
             return marineLife;
         } else {
-            throw new IllegalStateException("No marine life sprite found in the database or invalid index.");
+            throw new IllegalStateException("Tidak ada data ikan didata Base");
         }
     }
 
     private void spawnMarineLife() {
     try {
-        double xPosition = random.nextDouble() * (MAX_WIDTH - 50); // Spawn randomly within the screen width
-        double yPosition = random.nextDouble() * (MAX_HEIGHT - 50); // Spawn randomly within the screen height
+        double xPosition = random.nextDouble() * (MAX_WIDTH - 50); 
+        double yPosition = random.nextDouble() * (MAX_HEIGHT - 50); 
 
         MarineLife newMarineLife;
-        int randomType = random.nextInt(3); // Randomly choose between 0, 1, and 2
+        int randomType = random.nextInt(8); 
 
         if (randomType == 0) {
-            newMarineLife = MarineLife1(xPosition, yPosition);
+            newMarineLife = MarineLife1(xPosition, yPosition); // Spawn MarineLife1
         } else if (randomType == 1) {
-            newMarineLife = MarineLife2(xPosition, yPosition);
-        } else {
+            newMarineLife = MarineLife2(xPosition, yPosition); // Spawn MarineLife2
+        } else if (randomType == 2){
             newMarineLife = MarineLife3(xPosition, yPosition); // Spawn MarineLife3
+        } else if (randomType == 3){
+            newMarineLife = MarineLife4(xPosition, yPosition); // Spawn MarineLife4
+        } else if (randomType == 4){
+            newMarineLife = MarineLife5(xPosition, yPosition); // Spawn MarineLife5
+        } else if (randomType == 5){
+            newMarineLife = MarineLife6(xPosition, yPosition); // Spawn MarineLife6
+        } else if (randomType == 6){
+            newMarineLife = MarineLife7(xPosition, yPosition); // Spawn MarineLife7
+        } else if (randomType == 7){
+            newMarineLife = MarineLife8(xPosition, yPosition); // Spawn MarineLife8
+        } else{
+            newMarineLife = MarineLife9(xPosition, yPosition); // Spawn MarineLife9
         }
+           
 
-        marineLifeList.add(newMarineLife);  // Ensure it's added to the list
+        marineLifeList.add(newMarineLife);  
         gamePane1.getChildren().add(newMarineLife.getSprite());
         newMarineLife.startAnimation();
     } catch (SQLException e) {
@@ -414,16 +501,13 @@ public void initialize(URL url, ResourceBundle rb) {
     }
 }
 
-
     private MarineLife catchMarineLife() {
             MarineLife caughtMarineLife = null;
             double diverX = diver.getXPosition();
             double diverY = diver.getYPosition();
-
             for (MarineLife marineLife : marineLifeList) {
                 double distance = Math.sqrt(Math.pow(marineLife.getXPosition() - diverX, 2) +
                                             Math.pow(marineLife.getYPosition() - diverY, 2));
-
                 if (distance <= CATCH_DISTANCE) {
                     caughtMarineLife = marineLife;
                     break;
@@ -462,6 +546,7 @@ public void initialize(URL url, ResourceBundle rb) {
     
    @FXML
     public void handleBack(MouseEvent event) {
+        stopBackgroundMusic();
         Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
         confirmationAlert.setTitle("Keluar");
         confirmationAlert.setHeaderText("Apakah Anda yakin ingin keluar?");
@@ -483,8 +568,7 @@ public void initialize(URL url, ResourceBundle rb) {
             }
         }
     }
-    
-    
+
     private void endGame() {
     // Hentikan semua timeline yang sedang berjalan
     if (countdownTimer != null) countdownTimer.stop();
@@ -501,16 +585,14 @@ public void initialize(URL url, ResourceBundle rb) {
         if (user != null) {
             String level = "EASY"; // Ganti sesuai level permainan
             Timestamp date = new Timestamp(System.currentTimeMillis());
-
             boolean isSaved = HistoryDAO.addHistory(level, date, totalScore, user.getUid());
-
             if (isSaved) {
                 System.out.println("Game history saved successfully!");
             } else {
                 System.out.println("Failed to save game history!");
             }
         } else {
-            System.out.println("User is not logged in. Cannot save game history!");
+            System.out.println("Pengguna tidak masuk game tidak bisa di save ke histori!");
         }
     } catch (Exception e) {
         e.printStackTrace();
@@ -523,8 +605,8 @@ public void initialize(URL url, ResourceBundle rb) {
         scoreAlert.setTitle("Game Over");
         scoreAlert.setHeaderText("Waktu Habis!");
         scoreAlert.setContentText("Skor Akhir Anda: " + totalScore);
-
         scoreAlert.showAndWait();
+        stopBackgroundMusic();
 
         // Kembali ke menu utama setelah dialog ditutup
         try {
@@ -541,10 +623,8 @@ public void initialize(URL url, ResourceBundle rb) {
         }
     });
 }
-
-
-// Fungsi untuk menghitung total skor}
     
+// Fungsi untuk menghitung total skor}
 private List<Integer> sessionCatches = new ArrayList<>();
 
 public void addUserCatch(int userId, int marineLifeId) {
@@ -574,7 +654,25 @@ public void addUserCatch(int userId, int marineLifeId) {
     public void resetSession() {
         sessionCatches.clear(); // Reset tangkapan sesi setelah permainan selesai
     }
-        
+    
+    private void playBackgroundMusic() {
+        // Tentukan lokasi file musik
+        String musicFile = "src/main/java/assets/backsound.mp3";  // Sesuaikan dengan lokasi file musik Anda
+        File musicPath = new File(musicFile);
 
+        if (musicPath.exists()) {
+            Media media = new Media(musicPath.toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);  // Memutar musik secara terus-menerus
+            mediaPlayer.play();
+        } else {
+            JOptionPane.showMessageDialog(null, "Musik tidak ditemukan!");
+        }
+    }
 
+    private void stopBackgroundMusic() {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();  // musik berhenti
+        }
+    }
 }

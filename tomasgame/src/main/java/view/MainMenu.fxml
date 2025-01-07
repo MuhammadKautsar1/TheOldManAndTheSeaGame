@@ -17,7 +17,7 @@
            <Button fx:id="quitButton" layoutX="228.0" layoutY="381.0" onMouseClicked="#handleQuitButtonEvent" prefHeight="21.0" prefWidth="300" style="-fx-text-fill: white; -fx-background-color: red; -fx-font-size: 16px;" text="Quit" />
            <Button fx:id="leaderboardButton" layoutX="537.0" layoutY="199.0" onMouseClicked="#handleLeaderboard" prefHeight="108.0" prefWidth="97.0" style="-fx-background-color: #4a90e2; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 50%;">
             <graphic>
-               <ImageView fitHeight="94.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView fitHeight="94.0" fitWidth="90.0" onMouseClicked="#handleLeaderboard" pickOnBounds="true" preserveRatio="true">
                   <image>
                      <Image url="@../assets/leaderboard.png" />
                   </image>
@@ -34,7 +34,7 @@
                <Image url="@../assets/playbutton.png" />
             </image>
          </ImageView>
-         <ImageView fitHeight="90.0" fitWidth="94.0" layoutX="108.0" layoutY="199.0">
+         <ImageView fitHeight="90.0" fitWidth="94.0" layoutX="108.0" layoutY="199.0" onMouseClicked="#handleBook">
             <image>
                <Image url="@../assets/buku.png" />
             </image>

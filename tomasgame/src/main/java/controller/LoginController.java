@@ -18,6 +18,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javax.swing.JOptionPane;
 
 public class LoginController implements Initializable {
@@ -32,16 +34,19 @@ public class LoginController implements Initializable {
     private Button loginButton;
     @FXML
     private Button signUpButton;
+    private MediaPlayer mediaPlayer;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         user = null;
         loginButton.setText("LOGIN");
+        playBackgroundMusic();
     }
 
     @FXML
     @SuppressWarnings("CallToPrintStackTrace")
     private void handleButtonEvent(ActionEvent event) throws IOException {
+        stopBackgroundMusic();
         // Validasi input tidak boleh kosong
         if (usernameField.getText().isEmpty() || passwordField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Username dan Password tidak boleh kosong!");
@@ -78,7 +83,8 @@ public class LoginController implements Initializable {
     @FXML
     void handleSignUpButtonEvent(MouseEvent event) throws IOException {
         
-        // Pindah ke halaman Signup.fxml
+        stopBackgroundMusic();
+                
         try {
             URL url = new File("src/main/java/view/Signup.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);
@@ -91,9 +97,26 @@ public class LoginController implements Initializable {
             JOptionPane.showMessageDialog(null, "Gagal memuat halaman Signup. Periksa file FXML Anda!");
         }
     }
+    
+    private void playBackgroundMusic() {
+        // Tentukan lokasi file musik
+        String musicFile = "src/main/java/assets/login.mp3";  // Sesuaikan dengan lokasi file musik Anda
+        File musicPath = new File(musicFile);
 
-    public void showLoginView() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (musicPath.exists()) {
+            Media media = new Media(musicPath.toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);  // Memutar musik secara terus-menerus
+            mediaPlayer.play();
+        } else {
+            JOptionPane.showMessageDialog(null, "Musik tidak ditemukan!");
+        }
+    }
+    
+    private void stopBackgroundMusic() {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();  // Stop the music
+        }
     }
 
 }
