@@ -7,6 +7,7 @@ dao\HistoryDAO.class
 controller\GameController.class
 controller\SignUpController.class
 dao\UserCatchDAO.class
+controller\MediaController.class
 dao\BaseDAO.class
 dao\LeaderboardDAO.class
 controller\LoginController.class

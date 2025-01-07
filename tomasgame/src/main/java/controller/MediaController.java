@@ -31,7 +31,7 @@ public class MediaController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
-		file = new File("D:\\(A)GIT\\TheOldManAndTheSeaGame\\tomasgame\\src\\main\\java\\assets\\Vidio.mp4");
+		file = new File("src/main/java/assets/Vidio.mp4");
 		media = new Media(file.toURI().toString());
 		mediaPlayer = new MediaPlayer(media);
 		mediaView.setMediaPlayer(mediaPlayer);
