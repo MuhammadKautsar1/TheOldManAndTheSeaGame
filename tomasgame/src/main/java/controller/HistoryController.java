@@ -20,6 +20,8 @@ import javafx.scene.control.Button;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
@@ -47,6 +49,7 @@ public class HistoryController {
     private TableColumn<History, String> colUserName;
 
     private ObservableList<History> historyList;
+    private MediaPlayer mediaPlayer;
 
     @FXML
     public void initialize() {
@@ -61,6 +64,9 @@ public class HistoryController {
         historyList = FXCollections.observableArrayList();
         loadHistoryData();
         historyTable.setItems(historyList);
+
+        // Play background music when the scene is initialized
+        playBackgroundMusic();
     }
 
     private void loadHistoryData() {
@@ -72,12 +78,35 @@ public class HistoryController {
             List<History> histories = HistoryDAO.getHistoryById(userId);
             historyList.addAll(histories);
         }
-        
     }
-    
+
+    private void playBackgroundMusic() {
+        // Tentukan lokasi file musik
+        String musicFile = "src/main/java/assets/history.mp3";  // Sesuaikan dengan lokasi file musik Anda
+        File musicPath = new File(musicFile);
+        
+        if (musicPath.exists()) {
+            Media media = new Media(musicPath.toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);  // Memutar musik secara terus-menerus
+            mediaPlayer.play();
+        } else {
+            JOptionPane.showMessageDialog(null, "Musik tidak ditemukan!");
+        }
+    }
+
+    private void stopBackgroundMusic() {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();  // Stop the music
+        }
+    }
+
     @FXML
     private void HistoryBack(MouseEvent event) {
         try {
+            // Stop the background music before changing scene
+            stopBackgroundMusic();
+
             // Load MainMenu.fxml and show it in the current stage
             URL url = new File("src/main/java/view/MainMenu.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);

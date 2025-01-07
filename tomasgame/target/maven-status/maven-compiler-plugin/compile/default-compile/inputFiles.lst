@@ -1,23 +1,23 @@
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\controller\BookController.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\controller\GameController.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\controller\HistoryController.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\controller\LeaderboardController.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\controller\LoginController.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\controller\MainMenuController.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\controller\MediaController.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\controller\SignUpController.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\dao\BaseDAO.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\dao\HistoryDAO.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\dao\ImageDAO.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\dao\LeaderboardDAO.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\dao\MarineLifeDAO.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\dao\UserCatchDAO.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\dao\UserDAO.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\main\Tomasgame.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\model\Diver.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\model\Environment.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\model\Fish.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\model\History.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\model\Leaderboard.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\model\MarineLife.java
-D:\1PARA\Projects\Kuliah\Pemrograman Berbasis Objek\Java\Github Proj\TheOldManAndTheSeaGame\tomasgame\src\main\java\model\User.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\controller\BookController.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\controller\GameController.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\controller\HistoryController.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\controller\LeaderboardController.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\controller\LoginController.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\controller\MainMenuController.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\controller\MediaController.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\controller\SignUpController.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\dao\BaseDAO.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\dao\HistoryDAO.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\dao\ImageDAO.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\dao\LeaderboardDAO.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\dao\MarineLifeDAO.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\dao\UserCatchDAO.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\dao\UserDAO.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\main\Tomasgame.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\model\Diver.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\model\Environment.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\model\Fish.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\model\History.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\model\Leaderboard.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\model\MarineLife.java
+C:\Users\Yogad\Documents\GitHub\TheOldManAndTheSeaGame\tomasgame\src\main\java\model\User.java

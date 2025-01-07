@@ -16,6 +16,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import model.Leaderboard;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,6 +50,7 @@ public class LeaderboardController implements Initializable {
     private final String DEFAULT = "-fx-background-color: transparent; -fx-text-fill: black;";
 
     private LeaderboardDAO leaderboardDAO;
+    private MediaPlayer mediaPlayer;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -62,6 +65,9 @@ public class LeaderboardController implements Initializable {
         // Load leaderboard data for the default "MEDIUM" level
         loadLeaderboardData("MEDIUM");
         highlightButton(mediumBtn);
+
+        // Play background music when the scene is initialized
+        playBackgroundMusic();
     }
 
     @FXML
@@ -85,6 +91,9 @@ public class LeaderboardController implements Initializable {
     @FXML
     private void LeaderboardBack(MouseEvent event) {
         try {
+            // Stop the background music before changing scene
+            stopBackgroundMusic();
+
             // Load MainMenu.fxml and show it in the current stage
             URL url = new File("src/main/java/view/MainMenu.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);
@@ -119,5 +128,26 @@ public class LeaderboardController implements Initializable {
         mediumBtn.setStyle(DEFAULT);
         hardBtn.setStyle(DEFAULT);
         activeButton.setStyle(HIGHLIGHT);
+    }
+
+    private void playBackgroundMusic() {
+        // Tentukan lokasi file musik
+        String musicFile = "src/main/java/assets/Leaderboard.mp3";  // Sesuaikan dengan lokasi file musik Anda
+        File musicPath = new File(musicFile);
+
+        if (musicPath.exists()) {
+            Media media = new Media(musicPath.toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);  // Memutar musik secara terus-menerus
+            mediaPlayer.play();
+        } else {
+            JOptionPane.showMessageDialog(null, "Musik tidak ditemukan!");
+        }
+    }
+
+    private void stopBackgroundMusic() {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();  // Stop the music
+        }
     }
 }

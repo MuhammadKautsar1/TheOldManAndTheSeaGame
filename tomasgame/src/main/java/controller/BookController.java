@@ -18,6 +18,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -46,6 +49,7 @@ public class BookController implements Initializable {
     private Set<Integer> caughtMarineLifeIds;
     private User currentUser;
     private static final String QUESTION_MARK_PATH = "src/main/java/assets/question.png";
+    private MediaPlayer mediaPlayer;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -72,6 +76,10 @@ public class BookController implements Initializable {
             for (int i = 0; i < panes.length && i < marineLifeList.size(); i++) {
                 initializeFishDisplay(panes[i], i);
             }
+
+            // Play background music when the scene is initialized
+            playBackgroundMusic();
+
         } catch (Exception e) {
             showErrorDialog("Failed to load marine life data: " + e.getMessage());
             e.printStackTrace();
@@ -234,6 +242,9 @@ public class BookController implements Initializable {
     @FXML
     private void handleBack(MouseEvent event) {
         try {
+            // Stop the background music before changing scene
+            stopBackgroundMusic();
+
             URL url = new File("src/main/java/view/MainMenu.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);
             Stage stage = (Stage) backButton.getScene().getWindow();
@@ -251,5 +262,23 @@ public class BookController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private void playBackgroundMusic() {
+        try {
+            String musicPath = "src/main/java/assets/Books.mp3";
+            Media media = new Media(new File(musicPath).toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Loop the music
+            mediaPlayer.play();
+        } catch (Exception e) {
+            System.err.println("Error playing background music: " + e.getMessage());
+        }
+    }
+
+    private void stopBackgroundMusic() {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
     }
 }
