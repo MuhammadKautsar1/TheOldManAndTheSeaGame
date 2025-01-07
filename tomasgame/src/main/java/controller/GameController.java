@@ -82,7 +82,6 @@ public class GameController implements Initializable {
 
     private Random random = new Random();
 
-    private ArrayList<ImageView> bombList = new ArrayList<>(); // Daftar bomb
     private ArrayList<MarineLife> marineLifeList = new ArrayList<>(); // Daftar MarineLife
 
     @Override
