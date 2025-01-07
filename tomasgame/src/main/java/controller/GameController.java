@@ -57,13 +57,7 @@ public class GameController implements Initializable {
     private Button backButton;
     @FXML
     private ImageView marineLifeSprite;
-    @FXML
-    private Label scoreLabel;
-    @FXML
-    private ProgressBar healthPoint;
-    @FXML
-    private ImageView obstacleSprite;
-    
+ 
 
     private static final double CATCH_DISTANCE = 50; // Jarak maksimum untuk menangkap marine life
 
