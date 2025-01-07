@@ -5,71 +5,91 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import model.MarineLife;
-import java.util.HashSet; 
-import java.util.Set;  
+import model.User;
 
 import static dao.BaseDAO.getCon;
 import static dao.BaseDAO.closeCon;
 
 public class UserCatchDAO {
 
-    private static PreparedStatement st;
-    private static Connection con;
-
+    /**
+     * Menambahkan tangkapan pengguna ke tabel user_catch.
+     * Jika data sudah ada, proses insert akan dilewati.
+     */
     public static void addUserCatch(int userId, int marineLifeId) {
-        try {
-            con = getCon();
-            String query = "INSERT INTO user_catch (id_user, id_marinelife) VALUES (?, ?)";
-            st = con.prepareStatement(query);
-            st.setInt(1, userId);
-            st.setInt(2, marineLifeId);
-            st.executeUpdate();
+        try (Connection con = getCon()) {
+            // Cek apakah data sudah ada
+            String checkQuery = "SELECT COUNT(*) FROM user_catch WHERE id_user = ? AND id_marinelife = ?";
+            try (PreparedStatement checkStmt = con.prepareStatement(checkQuery)) {
+                checkStmt.setInt(1, userId);
+                checkStmt.setInt(2, marineLifeId);
+                ResultSet rs = checkStmt.executeQuery();
+                if (rs.next() && rs.getInt(1) > 0) {
+                    System.out.println("Data already exists. Skipping insert.");
+                    return; // Jika data sudah ada, hentikan proses
+                }
+            }
+
+            // Jika tidak ada, tambahkan data
+            String insertQuery = "INSERT INTO user_catch (id_user, id_marinelife) VALUES (?, ?)";
+            try (PreparedStatement insertStmt = con.prepareStatement(insertQuery)) {
+                insertStmt.setInt(1, userId);
+                insertStmt.setInt(2, marineLifeId);
+                insertStmt.executeUpdate();
+                System.out.println("Data inserted successfully.");
+            }
         } catch (SQLException e) {
+            System.err.println("Error while adding user catch: " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            closeCon(con);
         }
     }
 
+    /**
+     * Mengambil daftar tangkapan pengguna berdasarkan userId.
+     * Mengembalikan daftar objek MarineLife.
+     */
     public static List<MarineLife> getUserCatchBook(int userId) {
-        List<MarineLife> marineLifeBook = new ArrayList<>();
-        Set<Integer> uniqueMlId = new HashSet<>(); 
-        try {
-            con = getCon();
-            String query = """
-                SELECT ml.id_marinelife, ml.name, ml.classification, ml.points, ml.description, ml.id_image
-                FROM user_catch as uc
-                JOIN marinelife as ml ON uc.id_marinelife = ml.id_marinelife
-                WHERE uc.id_user = ?
-            """;
-            st = con.prepareStatement(query);
-            st.setInt(1, userId);
-            ResultSet rs = st.executeQuery();
-
-            while (rs.next()) {
-                int marineLifeId = rs.getInt("id_marinelife");
-
-                if (!uniqueMlId.contains(marineLifeId)) {
-                    MarineLife marineLife = new MarineLife(
-                    rs.getInt("id_marinelife"),  
-                    rs.getString("name"),         
-                    rs.getString("classification"),
-                    rs.getInt("points"),          
-                    rs.getString("description"),
-                    rs.getInt("id_image")          // Include id_image
-                );
-                    marineLifeBook.add(marineLife);
-                    uniqueMlId.add(marineLifeId);
+        List<MarineLife> marineLifeList = new ArrayList<>();
+        String query = "SELECT id_marinelife FROM user_catch WHERE id_user = ?";
+        try (Connection con = getCon();
+             PreparedStatement statement = con.prepareStatement(query)) {
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                MarineLife marineLife = MarineLifeDAO.getMarineLifeById(resultSet.getInt("id_marinelife"));
+                if (marineLife != null) {
+                    marineLifeList.add(marineLife);
                 }
             }
         } catch (SQLException e) {
+            System.err.println("Error fetching user catch book: " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            closeCon(con);
         }
+        return marineLifeList;
+    }
 
-        return marineLifeBook;
+    /**
+     * Mengambil daftar ID tangkapan pengguna berdasarkan userId.
+     * Mengembalikan Set berisi ID ikan yang sudah ditangkap.
+     */
+    public static Set<Integer> getUserCatchIds(int userId) {
+        Set<Integer> marineLifeIds = new HashSet<>();
+        String query = "SELECT id_marinelife FROM user_catch WHERE id_user = ?";
+        try (Connection con = getCon();
+             PreparedStatement statement = con.prepareStatement(query)) {
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                marineLifeIds.add(resultSet.getInt("id_marinelife"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching user catch IDs: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return marineLifeIds;
     }
 }

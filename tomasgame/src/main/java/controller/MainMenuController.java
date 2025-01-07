@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
 public class MainMenuController {
-
+    
     @FXML
     private Button startGameButton;
     @FXML
@@ -26,86 +26,85 @@ public class MainMenuController {
     private Button leaderboardButton;
     @FXML
     private Button quitButton;
-    @FXML
-    private Button mediaButton; // Tambahan tombol MediaScene
-
+   
     @FXML
     private void handleHistory(MouseEvent event) {
         try {
-            URL url = new File("src/main/java/view/History.fxml").toURI().toURL(); 
-            Parent root = FXMLLoader.load(url);
-            Stage stage = (Stage) historyButton.getScene().getWindow(); 
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Gagal memuat halaman history. Periksa file FXML Anda!");
+        URL url = new File("src/main/java/view/History.fxml").toURI().toURL(); 
+        Parent root = FXMLLoader.load(url);
+        Stage stage = (Stage) historyButton.getScene().getWindow(); 
+        
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    } catch (IOException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Gagal memuat halaman history. Periksa file FXML Anda!");
         }
     }
-
+    
     @FXML
-    void handleLeaderboard(MouseEvent event) {
-        try {
-            URL url = new File("src/main/java/view/Leaderboard.fxml").toURI().toURL(); 
-            Parent root = FXMLLoader.load(url);
-            Stage stage = (Stage) leaderboardButton.getScene().getWindow(); 
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+    void handleLeaderboard(MouseEvent event) throws IOException {
+    try {
+        URL url = new File("src/main/java/view/Leaderboard.fxml").toURI().toURL(); 
+        Parent root = FXMLLoader.load(url);
+        Stage stage = (Stage) leaderboardButton.getScene().getWindow(); 
+        
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Gagal memuat halaman leaderboard. Periksa file FXML Anda!");
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Gagal memuat halaman Login. Periksa file FXML Anda!");
         }
-    }
-
+}
+    
     @FXML
-    void handleQuitButtonEvent(MouseEvent event) {
-        try {
-            URL url = new File("src/main/java/view/Login.fxml").toURI().toURL(); 
-            Parent root = FXMLLoader.load(url);
-            Stage stage = (Stage) quitButton.getScene().getWindow(); 
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Gagal memuat halaman login. Periksa file FXML Anda!");
+    void handleQuitButtonEvent(MouseEvent event) throws IOException {
+    // Pindah ke halaman Login.fxml
+    try {
+        URL url = new File("src/main/java/view/Login.fxml").toURI().toURL(); 
+        Parent root = FXMLLoader.load(url);
+        Stage stage = (Stage) quitButton.getScene().getWindow(); 
+        
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    } catch (IOException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Gagal memuat halaman Leaderboard. Periksa file FXML Anda!");
         }
     }
-
+    
     @FXML
     private void handleGame(MouseEvent event) {
         try {
-            URL url = new File("src/main/java/view/Game.fxml").toURI().toURL(); 
-            Parent root = FXMLLoader.load(url);
-            Stage stage = (Stage) startGameButton.getScene().getWindow(); 
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+        URL url = new File("src/main/java/view/Game.fxml").toURI().toURL(); 
+        Parent root = FXMLLoader.load(url);
+        Stage stage = (Stage) startGameButton.getScene().getWindow(); 
+        
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Gagal memuat halaman game. Periksa file FXML Anda!");
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Gagal memuat halaman game. Periksa file FXML Anda!");
         }
     }
-
+    
     @FXML
     private void handleBook(MouseEvent event) {
         try {
-            URL url = new File("src/main/java/view/Book.fxml").toURI().toURL(); 
-            Parent root = FXMLLoader.load(url);
-            Stage stage = (Stage) bookButton.getScene().getWindow(); 
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+        URL url = new File("src/main/java/view/Book.fxml").toURI().toURL(); 
+        Parent root = FXMLLoader.load(url);
+        Stage stage = (Stage) bookButton.getScene().getWindow(); 
+        
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Gagal memuat halaman buku. Periksa file FXML Anda!");
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Gagal memuat halaman buku. Periksa file FXML Anda!");
         }
     }
 }

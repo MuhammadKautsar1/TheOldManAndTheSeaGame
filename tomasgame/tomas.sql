@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 06 Jan 2025 pada 14.13
+-- Waktu pembuatan: 07 Jan 2025 pada 04.12
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -45,7 +45,7 @@ INSERT INTO `history` (`id_history`, `level`, `date`, `score`, `id_user`) VALUES
 (3, 'EASY', '2024-12-04 16:40:00', 210, 1),
 (4, 'EASY', '2024-12-04 16:40:00', 99, 2),
 (5, 'EASY', '2024-12-04 16:40:00', 50, 1),
-(6, 'EASY', '2024-12-04 16:40:00', 500, 2),
+(6, 'EASY', '2024-12-04 16:40:00', 1000, 6),
 (7, 'EASY', '2024-12-04 16:41:11', 333, 2),
 (8, 'EASY', '2024-12-04 16:41:11', 666, 2),
 (9, 'EASY', '2024-12-04 16:41:11', 111, 1),
@@ -160,9 +160,8 @@ CREATE TABLE `user_catch` (
 --
 
 INSERT INTO `user_catch` (`id_catch`, `id_user`, `id_marinelife`) VALUES
-(1, 6, 6),
-(7, 1, 7),
-(8, 1, 1);
+(1, 1, 5),
+(2, 2, 3);
 
 --
 -- Indexes for dumped tables
@@ -216,7 +215,7 @@ ALTER TABLE `history`
 -- AUTO_INCREMENT untuk tabel `images`
 --
 ALTER TABLE `images`
-  MODIFY `id_image` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2101;
+  MODIFY `id_image` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2102;
 
 --
 -- AUTO_INCREMENT untuk tabel `marinelife`
@@ -234,7 +233,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `user_catch`
 --
 ALTER TABLE `user_catch`
-  MODIFY `id_catch` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_catch` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

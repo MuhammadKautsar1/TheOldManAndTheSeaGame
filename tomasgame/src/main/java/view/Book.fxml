@@ -21,49 +21,56 @@
       </Text>
       <AnchorPane fx:id="gamePane2" layoutX="552.0" layoutY="174.0" prefHeight="149.0" prefWidth="175.0" style="-fx-background-color: transparent;">
          <children>
-            <Button fx:id="ikan2Button" layoutX="66.0" layoutY="115.0" mnemonicParsing="false" text="View" />
-            <ImageView fitHeight="103.0" fitWidth="177.0" layoutX="-1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="ikan2ImageView" fitHeight="103.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="ikan2Button" layoutX="66.0" layoutY="115.0" mnemonicParsing="false" onMouseClicked="#handleMarineLifeButton" text="View" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="gamePane3" layoutX="786.0" layoutY="174.0" prefHeight="149.0" prefWidth="175.0" style="-fx-background-color: transparent;">
          <children>
-            <Button fx:id="ikan3Button" layoutX="66.0" layoutY="115.0" mnemonicParsing="false" text="View" />
+            <ImageView fx:id="ikan3ImageView" fitHeight="103.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="ikan3Button" layoutX="66.0" layoutY="115.0" mnemonicParsing="false" onMouseClicked="#handleMarineLifeButton" text="View" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="gamePane1" layoutX="319.0" layoutY="174.0" prefHeight="149.0" prefWidth="175.0" style="-fx-background-color: transparent;">
          <children>
-            <Button fx:id="ikan1Button" layoutX="66.0" layoutY="115.0" mnemonicParsing="false" text="View" />
-            <ImageView fitHeight="107.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="ikan1ImageView" fitHeight="103.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="ikan1Button" layoutX="66.0" layoutY="115.0" mnemonicParsing="false" onMouseClicked="#handleMarineLifeButton" text="View" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="gamePane5" layoutX="552.0" layoutY="354.0" prefHeight="149.0" prefWidth="175.0" style="-fx-background-color: transparent;">
          <children>
-            <Button fx:id="ikan5Button" layoutX="66.0" layoutY="115.0" mnemonicParsing="false" text="View" />
+            <ImageView fx:id="ikan5ImageView" fitHeight="103.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="ikan5Button" layoutX="66.0" layoutY="115.0" mnemonicParsing="false" onMouseClicked="#handleMarineLifeButton" text="View" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="gamePane6" layoutX="786.0" layoutY="354.0" prefHeight="149.0" prefWidth="175.0" style="-fx-background-color: transparent;">
          <children>
-            <Button fx:id="ikan6Button" layoutX="66.0" layoutY="115.0" mnemonicParsing="false" text="View" />
+            <ImageView fx:id="ikan6ImageView" fitHeight="103.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="ikan6Button" layoutX="66.0" layoutY="115.0" mnemonicParsing="false" onMouseClicked="#handleMarineLifeButton" text="View" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="gamePane4" layoutX="319.0" layoutY="354.0" prefHeight="149.0" prefWidth="175.0" style="-fx-background-color: transparent;">
          <children>
-            <Button fx:id="ikan4Button" layoutX="66.0" layoutY="115.0" mnemonicParsing="false" text="View" />
+            <ImageView fx:id="ikan4ImageView" fitHeight="103.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="ikan4Button" layoutX="66.0" layoutY="115.0" mnemonicParsing="false" onMouseClicked="#handleMarineLifeButton" text="View" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="gamePane7" layoutX="319.0" layoutY="532.0" prefHeight="149.0" prefWidth="175.0" style="-fx-background-color: transparent;">
          <children>
-            <Button fx:id="ikan7Button" layoutX="66.0" layoutY="115.0" mnemonicParsing="false" text="View" />
+            <ImageView fx:id="ikan7ImageView" fitHeight="103.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="ikan7Button" layoutX="66.0" layoutY="115.0" mnemonicParsing="false" onMouseClicked="#handleMarineLifeButton" text="View" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="gamePane8" layoutX="551.0" layoutY="532.0" prefHeight="149.0" prefWidth="175.0" style="-fx-background-color: transparent;">
          <children>
-            <Button fx:id="ikan8Button" layoutX="66.0" layoutY="115.0" mnemonicParsing="false" text="View" />
+            <ImageView fx:id="ikan8ImageView" fitHeight="103.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="ikan8Button" layoutX="66.0" layoutY="115.0" mnemonicParsing="false" onMouseClicked="#handleMarineLifeButton" text="View" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="gamePane9" layoutX="785.0" layoutY="532.0" prefHeight="149.0" prefWidth="175.0" style="-fx-background-color: transparent;">
          <children>
-            <Button fx:id="ikan9Button" layoutX="66.0" layoutY="115.0" mnemonicParsing="false" text="View" />
+            <ImageView fx:id="ikan9ImageView" fitHeight="103.0" fitWidth="175.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="ikan9Button" layoutX="66.0" layoutY="115.0" mnemonicParsing="false" onMouseClicked="#handleMarineLifeButton" text="View" />
          </children>
       </AnchorPane>
       <Button fx:id="backButton" layoutX="-1.0" layoutY="-1.0" mnemonicParsing="false" onMouseClicked="#handleBack" prefHeight="75.0" prefWidth="151.0" style="-fx-background-color: transparent;" text="Back" textAlignment="CENTER">
