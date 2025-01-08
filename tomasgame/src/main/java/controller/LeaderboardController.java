@@ -60,7 +60,7 @@ public class LeaderboardController implements Initializable {
         playersColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         pointsColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
 
-        // Load leaderboard data for the default "MEDIUM" level
+        // Load leaderboard data for the default "EASY" level
         loadLeaderboardData("EASY");
         highlightButton(mediumBtn);
         playBackgroundMusic();
