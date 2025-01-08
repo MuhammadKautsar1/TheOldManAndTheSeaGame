@@ -20,7 +20,6 @@ import javafx.util.Duration;
 import model.Diver;
 import model.MarineLife;
 import model.User;
-import javax.swing.*;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -38,6 +37,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -107,7 +107,11 @@ public class GameController implements Initializable {
         animateMarineLife(); // Tambahkan animasi
     } catch (SQLException e) {
         e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Failed to initialize game components!");
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Initialization Error");
+        alert.setHeaderText("Game Initialization Failed");
+        alert.setContentText("Failed to initialize game components!");
+        alert.showAndWait();
     }
 }
 
@@ -254,7 +258,11 @@ public class GameController implements Initializable {
                 UserCatchDAO.addUserCatch(user.getUid(), marineLife.getId());
             } catch (Exception e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Failed to save catch to database!");
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Database Error");
+                alert.setContentText("Failed to save catch to database!");
+                alert.showAndWait();
             }
 
             // Tambahkan ID marineLife ke sessionCatches
@@ -564,7 +572,11 @@ public class GameController implements Initializable {
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Failed to load the main menu. Check your FXML file!");
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Loading Error");
+                alert.setHeaderText("Failed to Load Main Menu");
+                alert.setContentText("Check your FXML file!");
+                alert.showAndWait();
             }
         }
     }
@@ -596,7 +608,11 @@ public class GameController implements Initializable {
         }
     } catch (Exception e) {
         e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "An error occurred while saving game history!");
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Game History Save Failed");
+        alert.setContentText("An error occurred while saving game history!");
+        alert.showAndWait();
     }
 
     // Tampilkan popup dengan skor akhir menggunakan Platform.runLater
@@ -619,7 +635,11 @@ public class GameController implements Initializable {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Failed to load the main menu. Check your FXML file!");
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Loading Error");
+            alert.setHeaderText("Failed to Load Main Menu");
+            alert.setContentText("Check your FXML file!");
+            alert.showAndWait();
         }
     });
 }
@@ -666,7 +686,11 @@ public void addUserCatch(int userId, int marineLifeId) {
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);  // Memutar musik secara terus-menerus
             mediaPlayer.play();
         } else {
-            JOptionPane.showMessageDialog(null, "Musik tidak ditemukan!");
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Musik Tidak Ditemukan");
+            alert.setContentText("Musik yang Anda cari tidak ditemukan!");
+            alert.showAndWait();
         }
     }
 
