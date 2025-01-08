@@ -128,14 +128,11 @@ public class LeaderboardController implements Initializable {
         String musicFile = "src/main/java/assets/leaderboard.mp3";  // Sesuaikan dengan lokasi file musik Anda
         File musicPath = new File(musicFile);
 
-        if (musicPath.exists()) {
             Media media = new Media(musicPath.toURI().toString());
             mediaPlayer = new MediaPlayer(media);
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);  // Memutar musik secara terus-menerus
             mediaPlayer.play();
-        } else {
-            JOptionPane.showMessageDialog(null, "Musik tidak ditemukan!");
-        }
+        
     }
     
     private void stopBackgroundMusic() {
