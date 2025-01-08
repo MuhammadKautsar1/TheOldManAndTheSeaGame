@@ -14,7 +14,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javax.swing.JOptionPane;
 import model.Leaderboard;
 import java.io.File;
 import java.io.IOException;
@@ -98,7 +97,6 @@ public class LeaderboardController implements Initializable {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Failed to load Main Menu. Please check your FXML file!");
         }
     }
 
